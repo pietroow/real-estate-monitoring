@@ -1,4 +1,10 @@
 package io.github.pietroow.real_estate_monitoring.domain.repository;
 
-public interface ObraInterface {
+import io.github.pietroow.real_estate_monitoring.domain.model.Obra;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ObraRepository extends JpaRepository<Obra, Long> {
+
 }
