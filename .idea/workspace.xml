@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4789d55-8691-489f-a732-d3565fdc5235" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/github/pietroow/real_estate_monitoring/domain/controller/ObraController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/github/pietroow/real_estate_monitoring/domain/model/Obra.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/github/pietroow/real_estate_monitoring/domain/repository/ObraRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/github/pietroow/real_estate_monitoring/domain/service/ObraService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="a4789d55-8691-489f-a732-d3565fdc5235" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +46,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.RealEstateMonitoringApplication.executor": "Run",
-    "git-widget-placeholder": "Merging development",
+    "git-widget-placeholder": "development",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -103,7 +94,7 @@
       <workItem from="1757165241760" duration="683000" />
       <workItem from="1757630076683" duration="664000" />
       <workItem from="1757648422959" duration="1689000" />
-      <workItem from="1757716216352" duration="2278000" />
+      <workItem from="1757716216352" duration="2574000" />
     </task>
     <servers />
   </component>
