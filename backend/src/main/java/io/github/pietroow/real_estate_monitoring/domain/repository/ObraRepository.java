@@ -3,8 +3,9 @@ package io.github.pietroow.real_estate_monitoring.domain.repository;
 import io.github.pietroow.real_estate_monitoring.domain.model.Obra;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.UUID;
 
 @Repository
-public interface ObraRepository extends JpaRepository<Obra, Long> {
+public interface ObraRepository extends JpaRepository<Obra, UUID> {
 
 }
