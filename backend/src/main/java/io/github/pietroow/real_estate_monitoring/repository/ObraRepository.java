@@ -1,6 +1,6 @@
-package io.github.pietroow.real_estate_monitoring.domain.repository;
+package io.github.pietroow.real_estate_monitoring.repository;
 
-import io.github.pietroow.real_estate_monitoring.domain.model.Obra;
+import io.github.pietroow.real_estate_monitoring.model.Obra;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.UUID;

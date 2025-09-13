@@ -1,4 +1,4 @@
-package io.github.pietroow.real_estate_monitoring.domain.model;
+package io.github.pietroow.real_estate_monitoring.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
