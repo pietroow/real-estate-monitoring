@@ -1,4 +1,4 @@
-import type { OptionModel } from 'src/models/optionModel';
+import type { OptionModel } from 'src/models/option-model';
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -17,6 +17,7 @@ export default function SearchObras({ typeOptions, statusOptions }: SearchObrasO
   return (
     <Stack paddingBottom={1} display="flex" flexDirection="row" gap={2}>
       <TextField
+        label="Nome da obra:"
         sx={{ width: 300 }}
         variant="outlined"
         placeholder="Digite aqui a sua busca"
@@ -43,26 +44,8 @@ export default function SearchObras({ typeOptions, statusOptions }: SearchObrasO
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Status" />}
       />
-      <Button
-        style={{
-          backgroundColor: '#81d4fa',
-          borderRadius: '8px',
-          alignItems: 'center',
-        }}
-        size="small"
-        variant="outlined"
-      >
-        <span
-          className="material-icons"
-          style={{
-            cursor: 'pointer',
-            alignItems: 'end',
-            fontSize: '16px',
-            color: '#ffff',
-          }}
-        >
-          search
-        </span>
+      <Button color="info" size="small" variant="contained">
+        <span className="material-icons">search</span>
       </Button>
     </Stack>
   );

@@ -3,7 +3,11 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function HeaderCadastroObra() {
+type HeaderCadastroObraProps = {
+  onAddObraClick: () => void;
+};
+
+export default function HeaderCadastroObra({ onAddObraClick }: HeaderCadastroObraProps) {
   return (
     <Stack paddingBottom={3} display="flex" flexDirection="row" justifyContent="space-between">
       <Typography variant="h4" color="#636363" gutterBottom>
@@ -11,47 +15,17 @@ export default function HeaderCadastroObra() {
       </Typography>
       <Box display="flex" gap={2}>
         <Button
-          style={{
-            color: '#ffff',
-            backgroundColor: '#00e676',
-            border: '#69f0ae 1px solid',
-            borderRadius: '8px',
-            alignItems: 'center',
+          onClick={() => {
+            onAddObraClick();
           }}
-          variant="outlined"
+          color="success"
+          variant="contained"
         >
-          <span
-            className="material-icons"
-            style={{
-              cursor: 'pointer',
-              alignItems: 'end',
-              fontSize: '16px',
-              color: '#ffff',
-            }}
-          >
-            add
-          </span>
+          <span className="material-icons">add</span>
           Novo
         </Button>
-        <Button
-          style={{
-            backgroundColor: '#81d4fa',
-            borderRadius: '8px',
-            alignItems: 'center',
-          }}
-          variant="outlined"
-        >
-          <span
-            className="material-icons"
-            style={{
-              cursor: 'pointer',
-              alignItems: 'end',
-              fontSize: '16px',
-              color: '#ffff',
-            }}
-          >
-            print
-          </span>
+        <Button color="info" variant="contained">
+          <span className="material-icons">print</span>
         </Button>
       </Box>
     </Stack>
