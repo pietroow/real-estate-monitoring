@@ -1,0 +1,32 @@
+.form-obra-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  gap: 16px;
+  width: 716px;
+  height: 870px;
+}
+
+.text-input {
+  padding-left: 12px;
+}
+
+.stepp-clicked {
+  cursor: pointer;
+}
+
+.container-switches {
+  gap: 5rem;
+}
+
+.material-icons {
+  cursor: pointer;
+  align-items: end;
+  font-size: 16px;
+  color: #ffff;
+}
