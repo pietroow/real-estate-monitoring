@@ -106,6 +106,7 @@ export const paths = {
       booking: `${ROOTS.DASHBOARD}/booking`,
       file: `${ROOTS.DASHBOARD}/file`,
       course: `${ROOTS.DASHBOARD}/course`,
+      funcionarios: `${ROOTS.DASHBOARD}/funcionarios-overview`,
     },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,
@@ -171,6 +172,9 @@ export const paths = {
         details: `${ROOTS.DASHBOARD}/tour/${MOCK_ID}`,
         edit: `${ROOTS.DASHBOARD}/tour/${MOCK_ID}/edit`,
       },
+    },
+    funcionarios: {
+      root: `${ROOTS.DASHBOARD}/funcionarios`,
     },
   },
 };
