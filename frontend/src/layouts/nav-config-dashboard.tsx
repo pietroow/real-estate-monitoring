@@ -42,6 +42,7 @@ const ICONS = {
   ecommerce: icon('ic-ecommerce'),
   analytics: icon('ic-analytics'),
   dashboard: icon('ic-dashboard'),
+  funcionarios: icon('ic-user'),
 };
 
 // ----------------------------------------------------------------------
@@ -75,6 +76,7 @@ export const navData: NavSectionProps['data'] = [
       { title: 'Booking', path: paths.dashboard.general.booking, icon: ICONS.booking },
       { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
       { title: 'Course', path: paths.dashboard.general.course, icon: ICONS.course },
+      { title: 'Funcionários', path: paths.dashboard.general.funcionarios, icon: ICONS.funcionarios },
     ],
   },
   /**
@@ -161,6 +163,7 @@ export const navData: NavSectionProps['data'] = [
         ],
       },
       { title: 'File manager', path: paths.dashboard.fileManager, icon: ICONS.folder },
+      { title: 'Funcionários', path: paths.dashboard.funcionarios.root, icon: ICONS.funcionarios },
       {
         title: 'Mail',
         path: paths.dashboard.mail,
