@@ -10,8 +10,6 @@ CREATE TABLE obra(
     cei_cno VARCHAR(255),
     area_total DECIMAL(10, 2),
     unidade_medida VARCHAR(255),
-    quem_paga VARCHAR(255),
-    conta VARCHAR(255),
     comentario VARCHAR(255),
     obra_visivel_para VARCHAR(255),
     status_lancamentos BOOLEAN,

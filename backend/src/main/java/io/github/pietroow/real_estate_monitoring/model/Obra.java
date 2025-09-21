@@ -55,12 +55,6 @@ public class Obra {
     @Column(name = "unidade_medida")
     private UnidadeMedida unidade;
 
-    @Column(name = "quem_paga")
-    private String quemPaga; //VERIFICAR C/ PIETRO
-
-    @Column(name = "conta")
-    private String conta; //VERIFICAR C/ PIETRO
-
     @Column(name = "comentario")
     private String comentario;
 
