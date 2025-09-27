@@ -1,15 +1,14 @@
 package io.github.pietroow.real_estate_monitoring.model;
 
-import io.github.pietroow.real_estate_monitoring.model.converter.FornecedorStatusConverter;
-import io.github.pietroow.real_estate_monitoring.model.enums.FornecedorStatus;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +17,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import io.github.pietroow.real_estate_monitoring.model.enums.FornecedorStatus;
 
 @Entity
 @Table(name = "fornecedor")
@@ -32,86 +32,79 @@ public class Fornecedor {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "cnpj", nullable = false, unique = true, length = 18)
+    @Column(name = "cnpj", nullable = false, unique = true)
     private String cnpj;
 
-    @Column(name = "razao_social", nullable = false, length = 255)
+    @Column(name = "razao_social", nullable = false)
     private String razaoSocial;
 
-    @Column(name = "nome_fantasia", length = 255)
+    @Column(name = "nome_fantasia")
     private String nomeFantasia;
 
-    @Column(name = "inscricao_estadual", length = 20)
+    @Column(name = "inscricao_estadual")
     private String inscricaoEstadual;
 
-    @Column(name = "inscricao_municipal", length = 20)
+    @Column(name = "inscricao_municipal")
     private String inscricaoMunicipal;
 
-    @Column(name = "telefone_principal", length = 20)
+    @Column(name = "telefone_principal")
     private String telefonePrincipal;
 
-    @Column(name = "email_principal", nullable = false, length = 100)
+    @Column(name = "email_principal", nullable = false)
     private String emailPrincipal;
 
-    @Column(name = "nome_contato", length = 100)
+    @Column(name = "nome_contato")
     private String nomeContato;
 
-    @Column(name = "cep", length = 9)
+    @Column(name = "cep")
     private String cep;
 
-    @Column(name = "logradouro", length = 255)
+    @Column(name = "logradouro")
     private String logradouro;
 
-    @Column(name = "numero", length = 20)
+    @Column(name = "numero")
     private String numero;
 
-    @Column(name = "complemento", length = 100)
+    @Column(name = "complemento")
     private String complemento;
 
-    @Column(name = "bairro", length = 100)
+    @Column(name = "bairro")
     private String bairro;
 
-    @Column(name = "cidade", length = 100)
+    @Column(name = "cidade")
     private String cidade;
 
-    @Column(name = "uf", length = 2)
+    @Column(name = "uf")
     private String uf;
 
-    @Column(name = "banco_codigo", length = 10)
+    @Column(name = "banco_codigo")
     private String bancoCodigo;
 
-    @Column(name = "agencia", length = 10)
+    @Column(name = "agencia")
     private String agencia;
 
-    @Column(name = "conta", length = 20)
+    @Column(name = "conta")
     private String conta;
 
-    @Column(name = "pix", length = 255)
+    @Column(name = "pix")
     private String pix;
 
-    @Convert(converter = FornecedorStatusConverter.class)
-    @Column(name = "status", nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private FornecedorStatus status = FornecedorStatus.ATIVO;
 
     @Column(name = "observacoes", columnDefinition = "TEXT")
     private String observacoes;
 
+    @CreationTimestamp
     @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime dataCadastro;
 
+    @UpdateTimestamp
     @Column(name = "data_atualizacao", nullable = false)
     private LocalDateTime dataAtualizacao;
 
-    @PrePersist
-    protected void onCreate() {
-        var now = LocalDateTime.now();
-        this.dataCadastro = now;
-        this.dataAtualizacao = now;
-        if (this.status == null) this.status = FornecedorStatus.ATIVO;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.dataAtualizacao = LocalDateTime.now();
+    public void inativar() {
+        this.status = FornecedorStatus.INATIVO;
     }
 }

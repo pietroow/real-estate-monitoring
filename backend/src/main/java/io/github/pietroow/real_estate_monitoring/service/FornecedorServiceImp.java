@@ -2,91 +2,115 @@ package io.github.pietroow.real_estate_monitoring.service;
 
 import io.github.pietroow.real_estate_monitoring.dto.FornecedorCreateDto;
 import io.github.pietroow.real_estate_monitoring.dto.FornecedorFilterDto;
-import io.github.pietroow.real_estate_monitoring.dto.FornecedorResponseDto;
-import io.github.pietroow.real_estate_monitoring.dto.FornecedorUpdateDto;
 import io.github.pietroow.real_estate_monitoring.exception.ConflictException;
+import io.github.pietroow.real_estate_monitoring.exception.ResourceNotFoundException;
 import io.github.pietroow.real_estate_monitoring.mapper.FornecedorMapper;
 import io.github.pietroow.real_estate_monitoring.model.Fornecedor;
-import io.github.pietroow.real_estate_monitoring.model.enums.FornecedorStatus;
 import io.github.pietroow.real_estate_monitoring.repository.FornecedorRepository;
-import io.github.pietroow.real_estate_monitoring.repository.FornecedorSpecifications;
-import io.github.pietroow.real_estate_monitoring.util.CnpjUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-
 @Service
-public class FornecedorServiceImp implements FornecedorService {
+public class FornecedorServiceImp {
 
     private final FornecedorRepository fornecedorRepository;
+    private final FornecedorMapper mapper;
 
-    public FornecedorServiceImp(FornecedorRepository fornecedorRepository) {
+    public FornecedorServiceImp(FornecedorRepository fornecedorRepository, FornecedorMapper mapper) {
         this.fornecedorRepository = fornecedorRepository;
+        this.mapper = mapper;
     }
 
-    @Override
-    public FornecedorResponseDto create(FornecedorCreateDto dto) {
-        var maskedCnpj = CnpjUtils.toMasked(dto.cnpj());
-        if (fornecedorRepository.existsByCnpj(maskedCnpj)) {
+    @Transactional
+    public Fornecedor create(FornecedorCreateDto dto) {
+        var normalizedCnpj = dto.cnpj().replaceAll("\\D", "");
+        if (normalizedCnpj.length() != 14) {
+            throw new IllegalArgumentException("CNPJ deve conter 14 dígitos");
+        }
+        if (fornecedorRepository.existsByCnpj(normalizedCnpj)) {
             throw new ConflictException("CNPJ já cadastrado");
         }
         var e = new Fornecedor();
-        e.setStatus(FornecedorStatus.ATIVO);
-        FornecedorMapper.applyCreate(e, dto);
-        e.setCnpj(maskedCnpj);
-        e = fornecedorRepository.save(e);
-        return FornecedorMapper.toResponse(e);
+        mapper.applyCreate(e, dto);
+        e.setCnpj(normalizedCnpj);
+        return fornecedorRepository.save(e);
     }
 
-    @Override
-    public FornecedorResponseDto getById(UUID id) {
+    @Transactional(readOnly = true)
+    public Fornecedor getById(UUID id) {
+        return fornecedorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Fornecedor não encontrado"));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Fornecedor> list(FornecedorFilterDto filter, Pageable pageable) {
+        String cnpj = null;
+        if (filter != null && StringUtils.hasText(filter.cnpj())) {
+            var onlyDigits = filter.cnpj().replaceAll("\\D", "");
+            cnpj = onlyDigits.isEmpty() ? null : onlyDigits;
+        }
+        var razao = filter != null ? filter.razaoSocial() : null;
+        var fantasia = filter != null ? filter.nomeFantasia() : null;
+        var cidade = filter != null ? filter.cidade() : null;
+        var uf = filter != null ? filter.uf() : null;
+        var status = filter != null ? filter.status() : null;
+
+        return fornecedorRepository.search(cnpj, razao, fantasia, cidade, uf, status, pageable);
+    }
+
+    @Transactional
+    public Fornecedor update(UUID id, FornecedorCreateDto dto) {
         var e = fornecedorRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Fornecedor não encontrado"));
-        return FornecedorMapper.toResponse(e);
-    }
-
-    @Override
-    public Page<FornecedorResponseDto> list(FornecedorFilterDto filter, Pageable pageable) {
-        return fornecedorRepository.findAll(FornecedorSpecifications.byFilter(filter), pageable)
-                .map(FornecedorMapper::toResponse);
-    }
-
-    @Override
-    public FornecedorResponseDto update(UUID id, FornecedorUpdateDto dto) {
-        var e = fornecedorRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Fornecedor não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Fornecedor não encontrado"));
 
         if (dto.cnpj() != null) {
-            var masked = CnpjUtils.toMasked(dto.cnpj());
-            if (!masked.equals(e.getCnpj()) && fornecedorRepository.existsByCnpj(masked)) {
+            var normalized = dto.cnpj().replaceAll("\\D", "");
+            if (normalized.length() != 14) {
+                throw new IllegalArgumentException("CNPJ deve conter 14 dígitos");
+            }
+            if (!normalized.equals(e.getCnpj()) && fornecedorRepository.existsByCnpj(normalized)) {
                 throw new ConflictException("CNPJ já cadastrado em outro fornecedor");
             }
-            FornecedorMapper.applyUpdate(e, new FornecedorUpdateDto(
-                    masked,
-                    dto.razaoSocial(), dto.emailPrincipal(), dto.nomeFantasia(),
-                    dto.inscricaoEstadual(), dto.inscricaoMunicipal(), dto.telefonePrincipal(), dto.nomeContato(),
-                    dto.cep(), dto.logradouro(), dto.numero(), dto.complemento(), dto.bairro(), dto.cidade(), dto.uf(),
-                    dto.bancoCodigo(), dto.agencia(), dto.conta(), dto.pix(),
-                    dto.observacoes(), dto.status()
-            ));
+            var dtoWithNormalized = new FornecedorCreateDto(
+                    normalized,
+                    dto.razaoSocial(),
+                    dto.emailPrincipal(),
+                    dto.nomeFantasia(),
+                    dto.inscricaoEstadual(),
+                    dto.inscricaoMunicipal(),
+                    dto.telefonePrincipal(),
+                    dto.nomeContato(),
+                    dto.cep(),
+                    dto.logradouro(),
+                    dto.numero(),
+                    dto.complemento(),
+                    dto.bairro(),
+                    dto.cidade(),
+                    dto.uf(),
+                    dto.bancoCodigo(),
+                    dto.agencia(),
+                    dto.conta(),
+                    dto.pix(),
+                    dto.observacoes()
+            );
+            mapper.applyUpdate(e, dtoWithNormalized);
         } else {
-            FornecedorMapper.applyUpdate(e, dto);
+            mapper.applyUpdate(e, dto);
         }
 
-        e = fornecedorRepository.save(e);
-        return FornecedorMapper.toResponse(e);
+        return fornecedorRepository.save(e);
     }
 
-    @Override
-    public void softDelete(UUID id) {
+    @Transactional
+    public void delete(UUID id) {
         var e = fornecedorRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Fornecedor não encontrado"));
-        e.setStatus(FornecedorStatus.INATIVO);
+                .orElseThrow(() -> new ResourceNotFoundException("Fornecedor não encontrado"));
+        e.inativar();
         fornecedorRepository.save(e);
     }
 }

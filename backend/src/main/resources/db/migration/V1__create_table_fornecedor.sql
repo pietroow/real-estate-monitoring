@@ -1,7 +1,7 @@
 CREATE TABLE Fornecedor
 (
-    id UUID PRIMARY KEY,
-    cnpj                VARCHAR(18) UNIQUE NOT NULL,
+    id                  UUID PRIMARY KEY,
+    cnpj                VARCHAR(14) UNIQUE NOT NULL,
     razao_social        VARCHAR(255)       NOT NULL,
     nome_fantasia       VARCHAR(255),
     inscricao_estadual  VARCHAR(20),
@@ -20,8 +20,8 @@ CREATE TABLE Fornecedor
     agencia             VARCHAR(10),
     conta               VARCHAR(20),
     pix                 VARCHAR(255),
-    status              VARCHAR(20)        NOT NULL DEFAULT 'Ativo',
+    status              VARCHAR(20)        NOT NULL,
     observacoes         TEXT,
-    data_cadastro       TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP,
-    data_atualizacao    TIMESTAMP                   DEFAULT CURRENT_TIMESTAMP
+    data_cadastro       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -1,112 +1,71 @@
 @baseUrl = http://localhost:8080
-@cnpjDigits = 11111111111111
-@cnpjMasked = 11.111.111/1111-11
-@email = contato@minhaempresa.com
+@contentType = application/json
+@fornecedorId = 00000000-0000-0000-0000-000000000000
 
-
-# @name create_fornecedor
-POST {{baseUrl}}/api/fornecedores
-Content-Type: application/json
-Accept: application/json
+### Criar fornecedor
+POST {{baseUrl}}/fornecedores
+Content-Type: {{contentType}}
+Accept: {{contentType}}
 
 {
-  "cnpj": "{{cnpjDigits}}",
-  "razaoSocial": "Minha Empresa LTDA",
-  "emailPrincipal": "{{email}}",
-  "nomeFantasia": "Minha Empresa",
-  "telefonePrincipal": "41999999999",
-  "cep": "01001000",
-  "logradouro": "Praça da Sé",
+  "cnpj": "12345678000199",
+  "razaoSocial": "Fornecedor Exemplo LTDA",
+  "emailPrincipal": "contato@exemplo.com",
+  "nomeFantasia": "Fornecedor Exemplo",
+  "inscricaoEstadual": "ISENTO",
+  "inscricaoMunicipal": "123456",
+  "telefonePrincipal": "11999999999",
+  "nomeContato": "Fulano de Tal",
+  "cep": "12345-678",
+  "logradouro": "Rua Exemplo",
   "numero": "100",
-  "bairro": "Sé",
+  "complemento": "Conj. 10",
+  "bairro": "Centro",
   "cidade": "São Paulo",
-  "uf": "SP"
+  "uf": "SP",
+  "bancoCodigo": "001",
+  "agencia": "1234",
+  "conta": "123456-7",
+  "pix": "contato@exemplo.com",
+  "observacoes": "Observação inicial"
 }
 
 > {%
-    const body = response.body || {};
-    if (body.id) {
+    const body = response.body;
+    if (body && body.id) {
         client.global.set("fornecedorId", body.id);
     }
 %}
 
-### Ver o ID capturado
-GET {{baseUrl}}/api/fornecedores/{{fornecedorId}}
+### Listar fornecedores (com filtros e paginação)
+GET {{baseUrl}}/fornecedores?razaoSocial=exemplo&cidade=s%C3%A3o%20paulo&uf=SP&page=0&size=10&sort=razaoSocial,asc
+Accept: {{contentType}}
 
-### =========================================================
-POST {{baseUrl}}/api/fornecedores
-Content-Type: application/json
-Accept: application/json
+### Obter fornecedor por ID
+GET {{baseUrl}}/fornecedores/{{fornecedorId}}
+Accept: {{contentType}}
 
-{
-  "cnpj": "{{cnpjMasked}}",
-  "razaoSocial": "Outra Empresa LTDA",
-  "emailPrincipal": "outro@empresa.com"
-}
-
-### =========================================================
-GET {{baseUrl}}/api/fornecedores?page=0&size=10&sort=razaoSocial,asc
-Accept: application/json
-
-### =========================================================
-GET {{baseUrl}}/api/fornecedores?cnpj={{cnpjMasked}}&razaoSocial=Empresa&status=ATIVO&cidade=São Paulo&uf=SP&page=0&
-    size=5
-Accept: application/json
-
-### =========================================================
-GET {{baseUrl}}/api/fornecedores/{{fornecedorId}}
-Accept: application/json
-
-### ID inexistente (deve retornar 404 Not Found)
-GET {{baseUrl}}/api/fornecedores/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
-Accept: application/json
-
-### =========================================================
-PUT {{baseUrl}}/api/fornecedores/{{fornecedorId}}
-Content-Type: application/json
-Accept: application/json
+### Atualizar fornecedor (parcial)
+PUT {{baseUrl}}/fornecedores/{{fornecedorId}}
+Content-Type: {{contentType}}
+Accept: {{contentType}}
 
 {
-  "nomeFantasia": "Minha Empresa Atualizada",
-  "emailPrincipal": "novo-contato@minhaempresa.com",
-  "cnpj": "{{cnpjMasked}}",
-  "telefonePrincipal": "41988888888",
-  "observacoes": "Atualizado via .http"
+  "nomeFantasia": "Fornecedor Exemplo Atualizado",
+  "telefonePrincipal": "11988888888",
+  "pix": "chave-pix-atualizada",
+  "observacoes": "Dados atualizados via HTTP client"
 }
 
-### =========================================================
-DELETE {{baseUrl}}/api/fornecedores/{{fornecedorId}}
-Accept: application/json
-
-### Conferir que ficou INATIVO após o soft delete
-GET {{baseUrl}}/api/fornecedores?status=INATIVO&cnpj={{cnpjMasked}}&page=0&size=1
-Accept: application/json
-
-### =========================================================
-POST {{baseUrl}}/api/fornecedores
-Content-Type: application/json
-Accept: application/json
+### Atualizar CNPJ (14 dígitos)
+PUT {{baseUrl}}/fornecedores/{{fornecedorId}}
+Content-Type: {{contentType}}
+Accept: {{contentType}}
 
 {
-  "cnpj": "123",
-  "razaoSocial": "Empresa Errada",
-  "emailPrincipal": "errada@empresa.com"
+  "cnpj": "11222333000155"
 }
 
-### BAD REQUEST - email ausente (400)
-POST {{baseUrl}}/api/fornecedores
-Content-Type: application/json
-Accept: application/json
-
-{
-  "cnpj": "22222222000122",
-  "razaoSocial": "Sem Email SA"
-}
-
-### =========================================================
-GET {{baseUrl}}/api/utils/cnpj/19131243000197
-Accept: application/json
-
-### Utils - Buscar dados de endereço por CEP (ViaCEP)
-GET {{baseUrl}}/api/utils/cep/01001000
-Accept: application/json
+### Excluir (inativar) fornecedor
+DELETE {{baseUrl}}/fornecedores/{{fornecedorId}}
+Accept: */*
