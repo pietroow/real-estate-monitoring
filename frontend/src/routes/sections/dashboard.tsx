@@ -81,6 +81,9 @@ const PermissionDeniedPage = lazy(() => import('src/pages/dashboard/permission')
 const ParamsPage = lazy(() => import('src/pages/dashboard/params'));
 const SubpathsPage = lazy(() => import('src/pages/dashboard/subpaths'));
 const BlankPage = lazy(() => import('src/pages/dashboard/blank'));
+// Funcionários
+const FuncionariosPage = lazy(() => import('src/pages/dashboard/funcionarios'));
+const FuncionariosOverviewPage = lazy(() => import('src/pages/dashboard/funcionarios-overview'));
 
 // ----------------------------------------------------------------------
 
@@ -117,6 +120,7 @@ export const dashboardRoutes: RouteObject[] = [
       { path: 'booking', element: <OverviewBookingPage /> },
       { path: 'file', element: <OverviewFilePage /> },
       { path: 'course', element: <OverviewCoursePage /> },
+      { path: 'funcionarios-overview', element: <FuncionariosOverviewPage /> },
       {
         path: 'user',
         children: [
@@ -205,6 +209,7 @@ export const dashboardRoutes: RouteObject[] = [
       { path: 'permission', element: <PermissionDeniedPage /> },
       { path: 'params', element: <ParamsPage /> },
       { path: 'blank', element: <BlankPage /> },
+      { path: 'funcionarios', element: <FuncionariosPage /> },
       {
         path: 'subpaths',
         children: [
