@@ -1,0 +1,27 @@
+CREATE TABLE Fornecedor
+(
+    id                  UUID PRIMARY KEY,
+    cnpj                VARCHAR(14) UNIQUE NOT NULL,
+    razao_social        VARCHAR(255)       NOT NULL,
+    nome_fantasia       VARCHAR(255),
+    inscricao_estadual  VARCHAR(20),
+    inscricao_municipal VARCHAR(20),
+    telefone_principal  VARCHAR(20),
+    email_principal     VARCHAR(100)       NOT NULL,
+    nome_contato        VARCHAR(100),
+    cep                 VARCHAR(9),
+    logradouro          VARCHAR(255),
+    numero              VARCHAR(20),
+    complemento         VARCHAR(100),
+    bairro              VARCHAR(100),
+    cidade              VARCHAR(100),
+    uf                  CHAR(2),
+    banco_codigo        VARCHAR(10),
+    agencia             VARCHAR(10),
+    conta               VARCHAR(20),
+    pix                 VARCHAR(255),
+    status              VARCHAR(20)        NOT NULL,
+    observacoes         TEXT,
+    data_cadastro       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
