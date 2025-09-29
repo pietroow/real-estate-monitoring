@@ -1,6 +1,6 @@
 import { CONFIG } from 'src/global-config';
 
-import { FuncionariosView } from 'src/sections/funcionarios/view/funcionarios-view';
+import { OverviewFuncionariosView } from 'src/sections/overview/funcionarios/view/overview-funcionarios-view';
 
 // ----------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ export default function FuncionariosPage() {
     return (
         <>
             <title>{metadata.title}</title>
-            <FuncionariosView />
+            <OverviewFuncionariosView />
         </>
     );
 }
