@@ -1,13 +1,15 @@
 package io.github.pietroow.real_estate_monitoring.controller;
 
+import io.github.pietroow.real_estate_monitoring.dto.ObraDTO;
 import io.github.pietroow.real_estate_monitoring.model.Obra;
 import io.github.pietroow.real_estate_monitoring.service.ObraService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,9 +26,9 @@ public class ObraController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Obra>> listarObras() {
-        List<Obra> obras = obraService.listarTodasObras();
-        return ResponseEntity.status(HttpStatus.OK).body(obras);
+    public ResponseEntity<Page<Obra>> listarObras(Pageable pageable) {
+        Page<Obra> obrasPaginadas = obraService.listarObras(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(obrasPaginadas);
     }
 
     @GetMapping("/{id}")
@@ -36,18 +38,15 @@ public class ObraController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Obra> deletarObras(@PathVariable UUID id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarObras(@PathVariable UUID id) {
         obraService.deletarObra(id);
-        return new ResponseEntity<Obra>(HttpStatus.NO_CONTENT);
-
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Obra> atualizarObra(@PathVariable UUID id, @RequestBody Obra obra) {
-        Obra obraAtualizada = obraService.atualizarObra(id, obra);
-        return new ResponseEntity<Obra>(obraAtualizada, HttpStatus.OK);
+    public ResponseEntity<Obra> atualizarObras(@PathVariable UUID id, @RequestBody ObraDTO dto) {
+        Obra obraAtualizada = obraService.atualizarObra(id, dto);
+        return ResponseEntity.ok(obraAtualizada);
     }
-
-
 
 }

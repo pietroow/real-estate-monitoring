@@ -1,16 +1,16 @@
 package io.github.pietroow.real_estate_monitoring.model;
 
-import io.github.pietroow.real_estate_monitoring.model.Enum.StatusObra;
-import io.github.pietroow.real_estate_monitoring.model.Enum.TipoObra;
-import io.github.pietroow.real_estate_monitoring.model.Enum.UnidadeMedida;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "obra", schema = "real-estate-monitoring")
+@Table(name = "obra")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,27 +22,27 @@ public class Obra {
     @Column(name = "id")
     public UUID id;
 
-    @Column(name = "nome_obra")
-    public String nomeObra;
+    @Column(name = "nome")
+    public String nome;
 
-    @Column(name = "codigo_obra")
-    public String codigoObra;
+    @Column(name = "codigo")
+    public String codigo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_obra")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_id")
     public TipoObra tipoObra;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_obra")
-    private StatusObra statusObra;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    private StatusObra status;
 
-    @Column(name = "art", unique = true)
+    @Column(name = "art")
     public String art;
 
     @Column(name = "responsavel_tecnico")
-    private String responsávelTecnico;
+    private String responsavelTecnico;
 
-    @Column(name = "responsavel_da_obra")
+    @Column(name = "responsavel_obra")
     private String responsavelDaObra;
 
     @Column(name = "cei_cno")
@@ -51,15 +51,12 @@ public class Obra {
     @Column(name = "area_total", precision = 10, scale = 2)
     private BigDecimal areaTotal;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "unidade_medida")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unidade_id")
     private UnidadeMedida unidade;
 
     @Column(name = "comentario")
     private String comentario;
-
-    @Column(name = "obra_visivel_para")
-    private String obraVisivelPara; //VERIFICAR C/ PIETRO
 
     @Column(name = "status_lancamentos")
     private boolean statusParaLancamentos;
