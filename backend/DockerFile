@@ -1,0 +1,12 @@
+# Usa uma imagem base com o JDK 17
+FROM eclipse-temurin:17-jdk-focal
+
+# Adiciona o arquivo JAR gerado pelo Maven ao container
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+
+# Expõe a porta que sua aplicação usa
+EXPOSE 8080
+
+# Comando para rodar a aplicação quando o container iniciar
+ENTRYPOINT ["java", "-jar", "app.jar"]
