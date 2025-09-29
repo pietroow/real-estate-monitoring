@@ -17,7 +17,7 @@ import { usePathname } from '../hooks';
 // ----------------------------------------------------------------------
 
 // Overview
-const IndexPage = lazy(() => import('src/pages/dashboard'));
+const IndexPage = lazy(() => import('../../pages/dashboard/index'));
 const OverviewEcommercePage = lazy(() => import('src/pages/dashboard/ecommerce'));
 const OverviewAnalyticsPage = lazy(() => import('src/pages/dashboard/analytics'));
 const OverviewBankingPage = lazy(() => import('src/pages/dashboard/banking'));
@@ -82,8 +82,7 @@ const ParamsPage = lazy(() => import('src/pages/dashboard/params'));
 const SubpathsPage = lazy(() => import('src/pages/dashboard/subpaths'));
 const BlankPage = lazy(() => import('src/pages/dashboard/blank'));
 // Funcionários
-const FuncionariosPage = lazy(() => import('src/pages/dashboard/funcionarios'));
-const FuncionariosOverviewPage = lazy(() => import('src/pages/dashboard/funcionarios-overview'));
+const FuncionariosPage = lazy(() => import('src/pages/dashboard/Funcionario/funcionarios'));
 
 // ----------------------------------------------------------------------
 
@@ -120,7 +119,6 @@ export const dashboardRoutes: RouteObject[] = [
       { path: 'booking', element: <OverviewBookingPage /> },
       { path: 'file', element: <OverviewFilePage /> },
       { path: 'course', element: <OverviewCoursePage /> },
-      { path: 'funcionarios-overview', element: <FuncionariosOverviewPage /> },
       {
         path: 'user',
         children: [

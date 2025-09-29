@@ -163,7 +163,6 @@ export const navData: NavSectionProps['data'] = [
         ],
       },
       { title: 'File manager', path: paths.dashboard.fileManager, icon: ICONS.folder },
-      { title: 'Funcionários', path: paths.dashboard.funcionarios.root, icon: ICONS.funcionarios },
       {
         title: 'Mail',
         path: paths.dashboard.mail,

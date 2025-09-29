@@ -1,40 +1,65 @@
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import { useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import type { IFuncionarioItem } from 'src/types/funcionario';
 
-import { DashboardContent } from 'src/layouts/dashboard';
-import { SeoIllustration } from 'src/assets/illustrations';
+import { useState } from 'react';
 
-import { svgColorClasses } from 'src/components/svg-color';
-
-import { useMockedUser } from 'src/auth/hooks';
-
-import { AppWidget } from '../../app/app-widget';
-import { AppWidgetSummary } from '../../app/app-widget-summary';
-
-// ----------------------------------------------------------------------
+import { FuncionarioListView } from '../funcionario-list-view';
+import { FuncionarioEditModal } from '../funcionario-edit-modal';
+import { FuncionarioCreateModal } from '../funcionario-create-modal';
 
 export function OverviewFuncionariosView() {
-    const { user } = useMockedUser();
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [funcionarioToEdit, setFuncionarioToEdit] = useState<IFuncionarioItem | null>(null);
 
-    const theme = useTheme();
+    const handleOpenCreateModal = () => {
+        setShowCreateModal(true);
+    };
+
+    const handleCloseCreateModal = () => {
+        setShowCreateModal(false);
+    };
+
+    const handleOpenEditModal = (funcionario: IFuncionarioItem) => {
+        setFuncionarioToEdit(funcionario);
+        setShowEditModal(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setShowEditModal(false);
+        setFuncionarioToEdit(null);
+    };
+
+    const handleCreateSuccess = (novoFuncionario?: IFuncionarioItem) => {
+        console.log('handleCreateSuccess chamado!');
+        handleCloseCreateModal();
+    };
+
+    const handleEditSuccess = (funcionarioAtualizado: IFuncionarioItem) => {
+        console.log('handleEditSuccess chamado!', funcionarioAtualizado);
+        // Disparar evento para atualizar a lista
+        window.dispatchEvent(new CustomEvent('funcionarioUpdated', {
+            detail: funcionarioAtualizado
+        }));
+        handleCloseEditModal();
+    };
 
     return (
-        <DashboardContent maxWidth="xl">
-            <Typography variant="h4" sx={{ mb: { xs: 3, md: 5 } }}>
-                Hi, Welcome back 👋
-            </Typography>
-
-
-
-
-
-
-
-
-
-        </DashboardContent>
+        <>
+            <FuncionarioListView
+                onNewFuncionario={handleOpenCreateModal}
+                onEditFuncionario={handleOpenEditModal}
+            />
+            <FuncionarioCreateModal
+                open={showCreateModal}
+                onClose={handleCloseCreateModal}
+                onSuccess={handleCreateSuccess}
+            />
+            <FuncionarioEditModal
+                open={showEditModal}
+                onClose={handleCloseEditModal}
+                onSave={handleEditSuccess}
+                funcionario={funcionarioToEdit}
+            />
+        </>
     );
 }
