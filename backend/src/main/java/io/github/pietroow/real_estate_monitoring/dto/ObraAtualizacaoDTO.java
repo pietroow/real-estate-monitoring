@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class ObraDTO {
+public class ObraAtualizacaoDTO {
     private String nome;
     private String codigo;
     private String art;

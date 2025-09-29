@@ -1,6 +1,6 @@
 package io.github.pietroow.real_estate_monitoring.service;
 
-import io.github.pietroow.real_estate_monitoring.dto.ObraDTO;
+import io.github.pietroow.real_estate_monitoring.dto.ObraAtualizacaoDTO;
 import io.github.pietroow.real_estate_monitoring.model.Obra;
 import io.github.pietroow.real_estate_monitoring.model.StatusObra;
 import io.github.pietroow.real_estate_monitoring.model.TipoObra;
@@ -48,7 +48,7 @@ public class ObraService {
         obraRepository.deleteById(id);
     }
 
-    public Obra atualizarObra(UUID id, ObraDTO dto) {
+    public Obra atualizarObra(UUID id, ObraAtualizacaoDTO dto) {
         Obra obraExistente = obraRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Obra não encontrada com o ID: " + id));
 
         obraExistente.setNome(dto.getNome());

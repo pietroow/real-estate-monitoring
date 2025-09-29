@@ -1,6 +1,6 @@
 package io.github.pietroow.real_estate_monitoring.controller;
 
-import io.github.pietroow.real_estate_monitoring.dto.ObraDTO;
+import io.github.pietroow.real_estate_monitoring.dto.ObraAtualizacaoDTO;
 import io.github.pietroow.real_estate_monitoring.model.Obra;
 import io.github.pietroow.real_estate_monitoring.service.ObraService;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ public class ObraController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Obra> atualizarObras(@PathVariable UUID id, @RequestBody ObraDTO dto) {
+    public ResponseEntity<Obra> atualizarObras(@PathVariable UUID id, @RequestBody ObraAtualizacaoDTO dto) {
         Obra obraAtualizada = obraService.atualizarObra(id, dto);
         return ResponseEntity.ok(obraAtualizada);
     }
