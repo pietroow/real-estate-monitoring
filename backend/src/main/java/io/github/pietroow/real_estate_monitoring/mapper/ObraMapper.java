@@ -1,7 +1,7 @@
 package io.github.pietroow.real_estate_monitoring.mapper;
 
-import io.github.pietroow.real_estate_monitoring.dto.ObraRequestDTO.ObraRequestDTO;
-import io.github.pietroow.real_estate_monitoring.dto.ObraResponseDTO.ObraResponseDTO;
+import io.github.pietroow.real_estate_monitoring.dto.obraRequestDTO.ObraRequestDTO;
+import io.github.pietroow.real_estate_monitoring.dto.obraResponseDTO.ObraResponseDTO;
 import io.github.pietroow.real_estate_monitoring.model.Obra;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

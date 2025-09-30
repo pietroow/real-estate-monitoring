@@ -1,4 +1,4 @@
-package io.github.pietroow.real_estate_monitoring.dto.ObraResponseDTO;
+package io.github.pietroow.real_estate_monitoring.dto.obraResponseDTO;
 
 import java.math.BigDecimal;
 import java.util.UUID;

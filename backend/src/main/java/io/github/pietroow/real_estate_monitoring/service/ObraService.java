@@ -1,6 +1,6 @@
 package io.github.pietroow.real_estate_monitoring.service;
 
-import io.github.pietroow.real_estate_monitoring.dto.ObraRequestDTO.ObraRequestDTO;
+import io.github.pietroow.real_estate_monitoring.dto.obraRequestDTO.ObraRequestDTO;
 import io.github.pietroow.real_estate_monitoring.exceptionHandler.EntidadeNaoEncontradaException;
 import io.github.pietroow.real_estate_monitoring.exceptionHandler.RegraDeNegocioException;
 import io.github.pietroow.real_estate_monitoring.mapper.ObraMapper;

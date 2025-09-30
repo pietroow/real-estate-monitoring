@@ -1,4 +1,4 @@
-package io.github.pietroow.real_estate_monitoring.dto.ObraRequestDTO;
+package io.github.pietroow.real_estate_monitoring.dto.obraRequestDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
