@@ -29,11 +29,11 @@ public class Obra {
     public String codigo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tipo_id")
-    public TipoObra tipoObra;
+    @JoinColumn(name = "tipo_obra_id")
+    private TipoObra tipo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_obra_id")
     private StatusObra status;
 
     @Column(name = "art")
@@ -52,7 +52,7 @@ public class Obra {
     private BigDecimal areaTotal;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "unidade_id")
+    @JoinColumn(name = "unidade_medida_id")
     private UnidadeMedida unidade;
 
     @Column(name = "comentario")

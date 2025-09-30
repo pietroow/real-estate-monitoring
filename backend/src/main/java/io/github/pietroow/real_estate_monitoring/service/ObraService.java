@@ -1,6 +1,9 @@
 package io.github.pietroow.real_estate_monitoring.service;
 
-import io.github.pietroow.real_estate_monitoring.dto.ObraAtualizacaoDTO;
+import io.github.pietroow.real_estate_monitoring.dto.ObraRequestDTO.ObraRequestDTO;
+import io.github.pietroow.real_estate_monitoring.exceptionHandler.EntidadeNaoEncontradaException;
+import io.github.pietroow.real_estate_monitoring.exceptionHandler.RegraDeNegocioException;
+import io.github.pietroow.real_estate_monitoring.mapper.ObraMapper;
 import io.github.pietroow.real_estate_monitoring.model.Obra;
 import io.github.pietroow.real_estate_monitoring.model.StatusObra;
 import io.github.pietroow.real_estate_monitoring.model.TipoObra;
@@ -9,7 +12,6 @@ import io.github.pietroow.real_estate_monitoring.repository.ObraRepository;
 import io.github.pietroow.real_estate_monitoring.repository.StatusObraRepository;
 import io.github.pietroow.real_estate_monitoring.repository.TipoObraRepository;
 import io.github.pietroow.real_estate_monitoring.repository.UnidadeMedidaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,16 +27,28 @@ import java.util.UUID;
 public class ObraService {
 
     private final ObraRepository obraRepository;
+    private final TipoObraRepository tipoObraRepository;
+    private final StatusObraRepository statusObraRepository;
+    private final UnidadeMedidaRepository unidadeMedidaRepository;
+    private final ObraMapper obraMapper;
 
-    private TipoObraRepository tipoObraRepository;
+    public Obra salvar(ObraRequestDTO dto) {
+        TipoObra tipo = tipoObraRepository.findById(dto.tipoId())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Tipo de Obra com ID " + dto.tipoId() + " não encontrado."));
 
-    private StatusObraRepository statusObraRepository;
+        StatusObra status = statusObraRepository.findById(dto.statusId())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Status de Obra com ID " + dto.statusId() + " não encontrado."));
 
-    private UnidadeMedidaRepository unidadeMedidaRepository;
+        UnidadeMedida unidade = unidadeMedidaRepository.findById(dto.unidadeId())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Unidade de Medida com ID " + dto.unidadeId() + " não encontrada."));
 
+        Obra novaObra = obraMapper.toEntity(dto);
 
-    public Obra salvar(Obra obra) {
-        return obraRepository.save(obra);
+        novaObra.setTipo(tipo);
+        novaObra.setStatus(status);
+        novaObra.setUnidade(unidade);
+
+        return obraRepository.save(novaObra);
     }
 
     public Page<Obra> listarObras(Pageable pageable) {
@@ -48,32 +63,29 @@ public class ObraService {
         obraRepository.deleteById(id);
     }
 
-    public Obra atualizarObra(UUID id, ObraAtualizacaoDTO dto) {
-        Obra obraExistente = obraRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Obra não encontrada com o ID: " + id));
+    public Obra atualizarObra(UUID id, ObraRequestDTO dto) {
+        // Busca a obra que será atualizada
+        Obra obraExistente = obraRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Obra com ID " + id + " não encontrada."));
 
-        obraExistente.setNome(dto.getNome());
-        obraExistente.setCodigo(dto.getCodigo());
-        obraExistente.setArt(dto.getArt());
-        obraExistente.setResponsavelTecnico(dto.getResponsavelTecnico());
-        obraExistente.setResponsavelDaObra(dto.getResponsavelDaObra());
-        obraExistente.setCeiCno(dto.getCeiCno());
-        obraExistente.setAreaTotal(dto.getAreaTotal());
-        obraExistente.setComentario(dto.getComentario());
-        obraExistente.setStatusParaLancamentos(dto.isStatusParaLancamentos());
-        obraExistente.setStatusParaFaturamentos(dto.isStatusParaFaturamentos());
-        obraExistente.setStatusParaCompras(dto.isStatusParaCompras());
 
-        TipoObra tipo = tipoObraRepository.findById(dto.getTipoId()).orElseThrow(() -> new EntityNotFoundException("Tipo de Obra não encontrado com o ID: " + dto.getTipoId()));
+        Optional<Obra> obraComMesmaArt = obraRepository.findByArt(dto.art());
 
-        StatusObra status = statusObraRepository.findById(dto.getStatusId()).orElseThrow(() -> new EntityNotFoundException("Status de Obra não encontrado com o ID: " + dto.getStatusId()));
+        obraComMesmaArt.ifPresent((Obra obraEncontrada) -> { // <-- CORREÇÃO: Tipo explícito (Obra)
+            if (!obraEncontrada.getId().equals(id)) {
+                throw new RegraDeNegocioException("A ART '" + dto.art() + "' já está em uso por outra obra.");
+            }
+        });
 
-        UnidadeMedida unidade = unidadeMedidaRepository.findById(dto.getUnidadeId()).orElseThrow(() -> new EntityNotFoundException("Unidade de Medida não encontrada com o ID: " + dto.getUnidadeId()));
+        TipoObra tipo = tipoObraRepository.findById(dto.tipoId()).orElseThrow(/*...*/);
+        StatusObra status = statusObraRepository.findById(dto.statusId()).orElseThrow(/*...*/);
+        UnidadeMedida unidade = unidadeMedidaRepository.findById(dto.unidadeId()).orElseThrow(/*...*/);
 
-        obraExistente.setTipoObra(tipo);
+        obraMapper.updateEntityFromRequestDTO(obraExistente, dto);
+        obraExistente.setTipo(tipo);
         obraExistente.setStatus(status);
         obraExistente.setUnidade(unidade);
 
         return obraRepository.save(obraExistente);
-
     }
 }

@@ -1,8 +1,11 @@
 package io.github.pietroow.real_estate_monitoring.controller;
 
-import io.github.pietroow.real_estate_monitoring.dto.ObraAtualizacaoDTO;
+import io.github.pietroow.real_estate_monitoring.dto.ObraRequestDTO.ObraRequestDTO;
+import io.github.pietroow.real_estate_monitoring.dto.ObraResponseDTO.ObraResponseDTO;
+import io.github.pietroow.real_estate_monitoring.mapper.ObraMapper;
 import io.github.pietroow.real_estate_monitoring.model.Obra;
 import io.github.pietroow.real_estate_monitoring.service.ObraService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,35 +21,47 @@ import java.util.UUID;
 public class ObraController {
 
     private final ObraService obraService;
+    private final ObraMapper obraMapper;
 
     @PostMapping
-    public ResponseEntity<Obra> cadastrarObra(@RequestBody Obra obra) {
-        Obra novaObra = obraService.salvar(obra);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novaObra);
+    public ResponseEntity<ObraResponseDTO> cadastrarObra(@RequestBody @Valid ObraRequestDTO dto) {
+
+        Obra novaObra = obraService.salvar(dto);
+        ObraResponseDTO responseDTO = obraMapper.toResponseDTO(novaObra);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     @GetMapping
-    public ResponseEntity<Page<Obra>> listarObras(Pageable pageable) {
+    public ResponseEntity<Page<ObraResponseDTO>> listarObras(Pageable pageable) {
+
         Page<Obra> obrasPaginadas = obraService.listarObras(pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(obrasPaginadas);
+        Page<ObraResponseDTO> dtoPage = obrasPaginadas.map(obraMapper::toResponseDTO);
+
+        return ResponseEntity.ok(dtoPage);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Obra> buscarObraPorId(@PathVariable UUID id) {
-        Obra obra = obraService.buscarPorId(id);
-        return new ResponseEntity<>(obra, HttpStatus.OK);
+    public ResponseEntity<ObraResponseDTO> buscarObraPorId(@PathVariable UUID id) {
+
+        Obra obraEncontrada = obraService.buscarPorId(id);
+        ObraResponseDTO responseDTO = obraMapper.toResponseDTO(obraEncontrada);
+
+        return ResponseEntity.ok(responseDTO);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletarObras(@PathVariable UUID id) {
+    public ResponseEntity<Void> deletarObras(@PathVariable UUID id) {
         obraService.deletarObra(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Obra> atualizarObras(@PathVariable UUID id, @RequestBody ObraAtualizacaoDTO dto) {
+    public ResponseEntity<ObraResponseDTO> atualizarObras(@PathVariable UUID id, @RequestBody @Valid ObraRequestDTO dto) {
         Obra obraAtualizada = obraService.atualizarObra(id, dto);
-        return ResponseEntity.ok(obraAtualizada);
+
+        ObraResponseDTO responseDTO = obraMapper.toResponseDTO(obraAtualizada);
+        return ResponseEntity.ok(responseDTO);
     }
 
 }
