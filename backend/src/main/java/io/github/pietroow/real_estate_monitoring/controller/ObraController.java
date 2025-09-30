@@ -51,9 +51,9 @@ public class ObraController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarObras(@PathVariable UUID id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarObras(@PathVariable UUID id) {
         obraService.deletarObra(id);
-        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
