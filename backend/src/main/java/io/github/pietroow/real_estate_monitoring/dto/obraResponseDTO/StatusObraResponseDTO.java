@@ -1,6 +1,8 @@
 package io.github.pietroow.real_estate_monitoring.dto.obraResponseDTO;
 
-public record UnidadeMedidaDTO(
-        Integer id,
+import java.util.UUID;
+
+public record StatusObraResponseDTO(
+        UUID id,
         String nome) {
 }

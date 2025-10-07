@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record ObraRequestDTO(
         @NotBlank(message = "O nome da obra não pode ser vazio.")
@@ -33,11 +34,11 @@ public record ObraRequestDTO(
         boolean statusParaCompras,
 
         @NotNull(message = "O ID do tipo da obra é obrigatório.")
-        Integer tipoId,
+        UUID tipoId,
 
         @NotNull(message = "O ID do status da obra é obrigatório.")
-        Integer statusId,
+        UUID statusId,
 
         @NotNull(message = "O ID da unidade de medida é obrigatório.")
-        Integer unidadeId) {
+        UUID unidadeId) {
 }

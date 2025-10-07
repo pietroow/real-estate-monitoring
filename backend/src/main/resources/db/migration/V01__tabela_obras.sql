@@ -1,18 +1,18 @@
 CREATE TABLE status_obra
 (
-    id   SERIAL PRIMARY KEY,
+    id   UUID PRIMARY KEY,
     nome VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE tipo_obra
 (
-    id   SERIAL PRIMARY KEY,
+    id   UUID PRIMARY KEY,
     nome VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE unidade_medida
 (
-    id   SERIAL PRIMARY KEY,
+    id   UUID PRIMARY KEY,
     nome VARCHAR(255) NOT NULL UNIQUE
 );
 
@@ -30,9 +30,9 @@ CREATE TABLE obra
     status_lancamentos  BOOLEAN,
     status_faturamentos BOOLEAN,
     status_compras      BOOLEAN,
-    tipo_obra_id        INT NOT NULL,
-    status_obra_id      INT NOT NULL,
-    unidade_medida_id   INT NOT NULL,
+    tipo_obra_id        UUID NOT NULL,
+    status_obra_id      UUID NOT NULL,
+    unidade_medida_id   UUID NOT NULL,
     CONSTRAINT fk_obra_tipo FOREIGN KEY (tipo_obra_id) REFERENCES tipo_obra (id),
     CONSTRAINT fk_obra_status FOREIGN KEY (status_obra_id) REFERENCES status_obra (id),
     CONSTRAINT fk_obra_unidade_medida FOREIGN KEY (unidade_medida_id) REFERENCES unidade_medida (id)

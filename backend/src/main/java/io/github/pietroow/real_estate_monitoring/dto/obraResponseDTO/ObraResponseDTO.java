@@ -16,7 +16,7 @@ public record ObraResponseDTO(
         boolean statusParaLancamentos,
         boolean statusParaFaturamentos,
         boolean statusParaCompras,
-        TipoObraDTO tipo,
-        StatusObraDTO status,
-        UnidadeMedidaDTO unidade) {
+        TipoObraResponseDTO tipo,
+        StatusObraResponseDTO status,
+        UnidadeMedidaResponseDTO unidade) {
 }

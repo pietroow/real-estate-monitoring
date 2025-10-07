@@ -1,18 +1,18 @@
-INSERT INTO status_obra (nome)
-VALUES ('PLANEJAMENTO'),
-       ('EM_ANDAMENTO'),
-       ('PAUSADA'),
-       ('CONCLUIDA'),
-       ('CANCELADA') ON CONFLICT DO NOTHING;
+INSERT INTO status_obra (id, nome)
+VALUES (gen_random_uuid(), 'PLANEJAMENTO'),
+       (gen_random_uuid(), 'EM_ANDAMENTO'),
+       (gen_random_uuid(), 'PAUSADA'),
+       (gen_random_uuid(), 'CONCLUIDA'),
+       (gen_random_uuid(), 'CANCELADA') ON CONFLICT DO NOTHING;
 
-INSERT INTO tipo_obra (nome)
-VALUES ('RESIDENCIAL'),
-       ('COMERCIAL'),
-       ('INDUSTRIAL'),
-       ('INFRAESTRUTURA') ON CONFLICT DO NOTHING;
+INSERT INTO tipo_obra (id, nome)
+VALUES (gen_random_uuid(), 'RESIDENCIAL'),
+       (gen_random_uuid(), 'COMERCIAL'),
+       (gen_random_uuid(), 'INDUSTRIAL'),
+       (gen_random_uuid(), 'INFRAESTRUTURA') ON CONFLICT DO NOTHING;
 
-INSERT INTO unidade_medida (nome)
-VALUES ('M2') ON CONFLICT DO NOTHING;
+INSERT INTO unidade_medida (id, nome)
+VALUES (gen_random_uuid(), 'M2') ON CONFLICT DO NOTHING;
 
 INSERT INTO obra (id, nome, codigo, art, responsavel_tecnico, responsavel_obra, cei_cno, area_total, comentario,
                   status_lancamentos, status_faturamentos, status_compras, tipo_obra_id, status_obra_id,
