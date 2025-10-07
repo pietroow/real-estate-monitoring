@@ -98,15 +98,16 @@ export const paths = {
     calendar: `${ROOTS.DASHBOARD}/calendar`,
     fileManager: `${ROOTS.DASHBOARD}/file-manager`,
     permission: `${ROOTS.DASHBOARD}/permission`,
-    general: {
-      app: `${ROOTS.DASHBOARD}/app`,
-      ecommerce: `${ROOTS.DASHBOARD}/ecommerce`,
-      analytics: `${ROOTS.DASHBOARD}/analytics`,
-      banking: `${ROOTS.DASHBOARD}/banking`,
-      booking: `${ROOTS.DASHBOARD}/booking`,
-      file: `${ROOTS.DASHBOARD}/file`,
-      course: `${ROOTS.DASHBOARD}/course`,
-    },
+      general: {
+        app: `${ROOTS.DASHBOARD}/app`,
+        ecommerce: `${ROOTS.DASHBOARD}/ecommerce`,
+        analytics: `${ROOTS.DASHBOARD}/analytics`,
+        banking: `${ROOTS.DASHBOARD}/banking`,
+        booking: `${ROOTS.DASHBOARD}/booking`,
+        file: `${ROOTS.DASHBOARD}/file`,
+        course: `${ROOTS.DASHBOARD}/course`,
+        funcionarios: `${ROOTS.DASHBOARD}/funcionarios`,
+      },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,
       new: `${ROOTS.DASHBOARD}/user/new`,
@@ -171,6 +172,9 @@ export const paths = {
         details: `${ROOTS.DASHBOARD}/tour/${MOCK_ID}`,
         edit: `${ROOTS.DASHBOARD}/tour/${MOCK_ID}/edit`,
       },
+    },
+    funcionarios: {
+      root: `${ROOTS.DASHBOARD}/funcionarios`,
     },
   },
 };
