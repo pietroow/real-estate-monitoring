@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface ObraRepository extends JpaRepository<Obra, UUID> {
 
-    Optional<Obra> findByArt(String art);
+    boolean existsByArtAndIdNot(String art, UUID id);
 }

@@ -27,9 +27,10 @@ public interface ObraMapper {
 
     @Mappings({
             @Mapping(target = "id", ignore = true),
-            @Mapping(target = "tipo", ignore = true),
-            @Mapping(target = "status", ignore = true),
-            @Mapping(target = "unidade", ignore = true)
+            @Mapping(target = "nome", source = "dto.nome"),
+            @Mapping(target = "tipo", source = "tipo"),
+            @Mapping(target = "status", source = "status"),
+            @Mapping(target = "unidade", source = "unidade")
     })
-    void updateEntityFromRequestDTO(@MappingTarget Obra obra, ObraRequestDTO dto);
+    void updateEntityFromRequestDTO(@MappingTarget Obra obra, ObraRequestDTO dto, TipoObra tipo, StatusObra status , UnidadeMedida unidade);
 }

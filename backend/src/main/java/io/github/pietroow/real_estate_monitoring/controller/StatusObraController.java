@@ -24,26 +24,26 @@ public class StatusObraController {
 
     @GetMapping
     public Page<StatusObraResponseDTO> listarTodosStatusObra(Pageable pageable) {
-        Page<StatusObra> statusObraPagiandas = statusObraService.listarTodos(pageable);
+        Page<StatusObra> statusObraPagiandas = statusObraService.listarTodosStatusObra(pageable);
         return statusObraPagiandas.map(statusObraMapper::toStatusObraResponseDTO);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void criarStatusObra(@RequestBody @Valid StatusObraRequestDTO dto) {
-        StatusObra novoStatusObra = statusObraService.salvar(dto);
+        StatusObra novoStatusObra = statusObraService.salvarStatusObra(dto);
         StatusObraResponseDTO responseDTO = statusObraMapper.toStatusObraResponseDTO(novoStatusObra);
     }
 
     @PutMapping("/{id}")
     public StatusObraResponseDTO atualizarStatusObra(@PathVariable UUID id, @RequestBody @Valid StatusObraRequestDTO dto) {
-        StatusObra statusObraAtualizado = statusObraService.atualizar(id, dto);
+        StatusObra statusObraAtualizado = statusObraService.atualizarStatusObra(id, dto);
         return statusObraMapper.toStatusObraResponseDTO(statusObraAtualizado);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarStatusObra(@PathVariable UUID id) {
-        statusObraService.deletar(id);
+        statusObraService.deletarStatusObra(id);
     }
 }

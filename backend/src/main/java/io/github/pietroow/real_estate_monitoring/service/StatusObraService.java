@@ -20,16 +20,16 @@ public class StatusObraService {
     private final StatusObraRepository statusObraRepository;
     private final StatusObraMapper statusObraMapper;
 
-    public Page<StatusObra> listarTodos(Pageable pageable) {
+    public Page<StatusObra> listarTodosStatusObra(Pageable pageable) {
         return statusObraRepository.findAll(pageable);
     }
 
-    public StatusObra buscarPorId(UUID id) {
+    public StatusObra buscarStatusObraPorId(UUID id) {
         return statusObraRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Status de Obra com ID" + id + "não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Status de Obra com ID '" + id + "' não encontrado."));
     }
 
-    public StatusObra salvar(StatusObraRequestDTO dto) {
+    public StatusObra salvarStatusObra(StatusObraRequestDTO dto) {
         statusObraRepository.findByNome(dto.nome()).ifPresent(t -> {
             throw new RegraDeNegocioException("O status de obra '" + dto.nome() + "' já existe.");
         });
@@ -37,8 +37,8 @@ public class StatusObraService {
         return statusObraRepository.save(statusObra);
     }
 
-    public StatusObra atualizar(UUID id, StatusObraRequestDTO dto) {
-        StatusObra statusObraExistente = this.buscarPorId(id);
+    public StatusObra atualizarStatusObra(UUID id, StatusObraRequestDTO dto) {
+        StatusObra statusObraExistente = this.buscarStatusObraPorId(id);
 
         statusObraRepository.findByNome(dto.nome()).ifPresent(t -> {
             if (!t.getId().equals(id)) {
@@ -50,8 +50,8 @@ public class StatusObraService {
         return statusObraRepository.save(statusObraExistente);
     }
 
-    public void deletar(UUID id) {
-        StatusObra StatusObra = this.buscarPorId(id);
+    public void deletarStatusObra(UUID id) {
+        StatusObra StatusObra = this.buscarStatusObraPorId(id);
         statusObraRepository.delete(StatusObra);
     }
 }

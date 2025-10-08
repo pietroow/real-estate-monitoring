@@ -37,7 +37,7 @@ public class ObraService {
 
     public Obra salvar(ObraRequestDTO dto) {
         TipoObra tipo = tipoObraService.buscarPorId(dto.tipoId());
-        StatusObra status = statusObraService.buscarPorId(dto.statusId());
+        StatusObra status = statusObraService.buscarStatusObraPorId(dto.statusId());
         UnidadeMedida unidade = unidadeMedidaService.buscarPorId(dto.unidadeId());
 
         Obra novaObra = obraMapper.toEntity(dto, tipo, status, unidade);
@@ -50,7 +50,8 @@ public class ObraService {
     }
 
     public Obra buscarPorId(UUID id) {
-        return obraRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return obraRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Obra com o ID '" + id + "' não encontrado."));
     }
 
     public void deletarObra(UUID id) {
@@ -58,26 +59,17 @@ public class ObraService {
     }
 
     public Obra atualizarObra(UUID id, ObraRequestDTO dto) {
-        Obra obraExistente = obraRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Obra com ID " + id + " não encontrada."));
+        Obra obraExistente = this.buscarPorId(id);
 
+        if(obraRepository.existsByArtAndIdNot(dto.art(), id)) {
+            throw new RegraDeNegocioException("Art '" + dto.art() + "'já está em uso por outra obra");
+        }
 
-        Optional<Obra> obraComMesmaArt = obraRepository.findByArt(dto.art());
+        TipoObra tipo = tipoObraService.buscarPorId(dto.tipoId());
+        StatusObra status = statusObraService.buscarStatusObraPorId(dto.statusId());
+        UnidadeMedida unidade = unidadeMedidaService.buscarPorId(dto.unidadeId());
 
-        obraComMesmaArt.ifPresent((Obra obraEncontrada) -> {
-            if (!obraEncontrada.getId().equals(id)) {
-                throw new RegraDeNegocioException("A ART '" + dto.art() + "' já está em uso por outra obra.");
-            }
-        });
-
-        TipoObra tipo = tipoObraRepository.findById(dto.tipoId()).orElseThrow(/*...*/);
-        StatusObra status = statusObraRepository.findById(dto.statusId()).orElseThrow(/*...*/);
-        UnidadeMedida unidade = unidadeMedidaRepository.findById(dto.unidadeId()).orElseThrow(/*...*/);
-
-        obraMapper.updateEntityFromRequestDTO(obraExistente, dto);
-        obraExistente.setTipo(tipo);
-        obraExistente.setStatus(status);
-        obraExistente.setUnidade(unidade);
+        obraMapper.updateEntityFromRequestDTO(obraExistente, dto, tipo, status, unidade);
 
         return obraRepository.save(obraExistente);
     }
