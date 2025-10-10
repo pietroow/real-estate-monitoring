@@ -15,11 +15,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -35,9 +33,10 @@ public class ObraService {
     private final StatusObraService statusObraService;
     private final UnidadeMedidaService unidadeMedidaService;
 
+    @Transactional
     public Obra salvar(ObraRequestDTO dto) {
         TipoObra tipo = tipoObraService.buscarPorId(dto.tipoId());
-        StatusObra status = statusObraService.buscarStatusObraPorId(dto.statusId());
+        StatusObra status = statusObraService.buscarPorId(dto.statusId());
         UnidadeMedida unidade = unidadeMedidaService.buscarPorId(dto.unidadeId());
 
         Obra novaObra = obraMapper.toEntity(dto, tipo, status, unidade);
@@ -45,28 +44,33 @@ public class ObraService {
         return obraRepository.save(novaObra);
     }
 
-    public Page<Obra> listarObras(Pageable pageable) {
+    @Transactional(readOnly = true)
+    public Page<Obra> listar(Pageable pageable) {
         return obraRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Obra buscarPorId(UUID id) {
         return obraRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Obra com o ID '" + id + "' não encontrado."));
     }
 
-    public void deletarObra(UUID id) {
-        obraRepository.deleteById(id);
+    @Transactional
+    public void deletar(UUID id) {
+        Obra obra = this.buscarPorId(id);
+        obraRepository.delete(obra);
     }
 
-    public Obra atualizarObra(UUID id, ObraRequestDTO dto) {
+    @Transactional
+    public Obra atualizar(UUID id, ObraRequestDTO dto) {
         Obra obraExistente = this.buscarPorId(id);
 
-        if(obraRepository.existsByArtAndIdNot(dto.art(), id)) {
+        if (obraRepository.existsByArtAndIdNot(dto.art(), id)) {
             throw new RegraDeNegocioException("Art '" + dto.art() + "'já está em uso por outra obra");
         }
 
         TipoObra tipo = tipoObraService.buscarPorId(dto.tipoId());
-        StatusObra status = statusObraService.buscarStatusObraPorId(dto.statusId());
+        StatusObra status = statusObraService.buscarPorId(dto.statusId());
         UnidadeMedida unidade = unidadeMedidaService.buscarPorId(dto.unidadeId());
 
         obraMapper.updateEntityFromRequestDTO(obraExistente, dto, tipo, status, unidade);

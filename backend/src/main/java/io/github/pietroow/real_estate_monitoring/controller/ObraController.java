@@ -31,7 +31,7 @@ public class ObraController {
 
     @GetMapping
     public Page<ObraResponseDTO> listarObras(Pageable pageable) {
-        Page<Obra> obrasPaginadas = obraService.listarObras(pageable);
+        Page<Obra> obrasPaginadas = obraService.listar(pageable);
         return obrasPaginadas.map(obraMapper::toObraResponseDTO);
     }
 
@@ -44,12 +44,12 @@ public class ObraController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarObras(@PathVariable UUID id) {
-        obraService.deletarObra(id);
+        obraService.deletar(id);
     }
 
     @PutMapping("/{id}")
     public ObraResponseDTO atualizarObras(@PathVariable UUID id, @RequestBody @Valid ObraRequestDTO dto) {
-        Obra obraAtualizada = obraService.atualizarObra(id, dto);
+        Obra obraAtualizada = obraService.atualizar(id, dto);
         return obraMapper.toObraResponseDTO(obraAtualizada);
     }
 

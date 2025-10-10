@@ -30,7 +30,7 @@ public class TipoObraController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarTipoObra(@RequestBody @Valid TipoObraRequestDTO dto) {
+    public void cadastrarTipoObra(@RequestBody @Valid TipoObraRequestDTO dto) {
         TipoObra novoTipoObra = tipoObraService.salvar(dto);
         TipoObraResponseDTO responseDTO = tipoObraMapper.toTipoObraResponseDTO(novoTipoObra);
     }

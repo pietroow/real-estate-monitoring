@@ -10,6 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface UnidadeMedidaRepository extends JpaRepository<UnidadeMedida, UUID> {
-    Optional<TipoObra> findByNome(String nome);
-
+    boolean existsByNome (String nome);
 }

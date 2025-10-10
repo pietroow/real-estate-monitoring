@@ -10,5 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface StatusObraRepository extends JpaRepository<StatusObra, UUID> {
-    Optional<StatusObra> findByNome(String nome);
+
+    boolean existsByNome (String nome);
 }

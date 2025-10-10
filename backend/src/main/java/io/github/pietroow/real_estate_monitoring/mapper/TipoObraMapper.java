@@ -5,16 +5,23 @@ import io.github.pietroow.real_estate_monitoring.dto.obraResponseDTO.TipoObraRes
 import io.github.pietroow.real_estate_monitoring.model.TipoObra;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
-import java.util.List;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface TipoObraMapper {
 
     TipoObraResponseDTO toTipoObraResponseDTO(TipoObra tipoObra);
 
-    List<TipoObraResponseDTO> toListDTO(List<TipoObra> tiposObra);
-
-    @Mapping(target = "id", ignore = true)
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "nome", source = "dto.nome")
+    })
     TipoObra toEntity(TipoObraRequestDTO dto);
+
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "nome", source = "dto.nome")
+    })
+    void updateEntityFromRequestDTO(@MappingTarget TipoObra tipoObra, TipoObraRequestDTO dto);
 }

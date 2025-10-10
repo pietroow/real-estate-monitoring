@@ -5,11 +5,13 @@ import io.github.pietroow.real_estate_monitoring.exceptionHandler.RegraDeNegocio
 import io.github.pietroow.real_estate_monitoring.mapper.StatusObraMapper;
 import io.github.pietroow.real_estate_monitoring.model.StatusObra;
 import io.github.pietroow.real_estate_monitoring.repository.StatusObraRepository;
+import io.github.pietroow.real_estate_monitoring.repository.TipoObraRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -19,39 +21,46 @@ public class StatusObraService {
 
     private final StatusObraRepository statusObraRepository;
     private final StatusObraMapper statusObraMapper;
+    private final TipoObraRepository tipoObraRepository;
 
-    public Page<StatusObra> listarTodosStatusObra(Pageable pageable) {
+    @Transactional(readOnly = true)
+    public Page<StatusObra> listarTodosStatus(Pageable pageable) {
         return statusObraRepository.findAll(pageable);
     }
 
-    public StatusObra buscarStatusObraPorId(UUID id) {
+    @Transactional(readOnly = true)
+    public StatusObra buscarPorId(UUID id) {
         return statusObraRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Status de Obra com ID '" + id + "' não encontrado."));
     }
 
-    public StatusObra salvarStatusObra(StatusObraRequestDTO dto) {
-        statusObraRepository.findByNome(dto.nome()).ifPresent(t -> {
-            throw new RegraDeNegocioException("O status de obra '" + dto.nome() + "' já existe.");
-        });
-        StatusObra statusObra = statusObraMapper.toEntity(dto);
-        return statusObraRepository.save(statusObra);
+    @Transactional
+    public StatusObra salvar(StatusObraRequestDTO dto) {
+
+        if (statusObraRepository.existsByNome(dto.nome())){
+            throw new RegraDeNegocioException("Statutos de obra ''" + dto.nome() + "' já está cadastrado.");
+        }
+        StatusObra novoStatusObra = statusObraMapper.toEntity(dto);
+
+        return statusObraRepository.save(novoStatusObra);
     }
 
-    public StatusObra atualizarStatusObra(UUID id, StatusObraRequestDTO dto) {
-        StatusObra statusObraExistente = this.buscarStatusObraPorId(id);
+    @Transactional
+    public StatusObra atualizar(UUID id, StatusObraRequestDTO dto) {
+        StatusObra statusObraExistente = this.buscarPorId(id);
 
-        statusObraRepository.findByNome(dto.nome()).ifPresent(t -> {
-            if (!t.getId().equals(id)) {
-                throw new RegraDeNegocioException("O status de obra '" + dto.nome() + "' já está em uso.");
-            }
-        });
+        if(statusObraRepository.existsByNome(dto.nome())){
+            throw  new RegraDeNegocioException("Statutos de obra '" + dto.nome() + "' já está cadastrado.");
+        }
 
-        statusObraExistente.setNome(dto.nome());
+        statusObraMapper.updateEntityFromRequestDTO(statusObraExistente, dto);
+
         return statusObraRepository.save(statusObraExistente);
     }
 
-    public void deletarStatusObra(UUID id) {
-        StatusObra StatusObra = this.buscarStatusObraPorId(id);
-        statusObraRepository.delete(StatusObra);
+    @Transactional
+    public void deletar(UUID id) {
+        StatusObra statusObra = this.buscarPorId(id);
+        statusObraRepository.delete(statusObra);
     }
 }

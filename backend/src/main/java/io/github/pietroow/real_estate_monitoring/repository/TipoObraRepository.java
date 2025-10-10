@@ -9,5 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface TipoObraRepository extends JpaRepository<TipoObra, UUID> {
-    Optional<TipoObra> findByNome(String nome);
+
+    boolean existsByNome (String nome);
 }
