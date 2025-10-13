@@ -24,6 +24,7 @@ const OverviewBankingPage = lazy(() => import('src/pages/dashboard/banking'));
 const OverviewBookingPage = lazy(() => import('src/pages/dashboard/booking'));
 const OverviewFilePage = lazy(() => import('src/pages/dashboard/file'));
 const OverviewCoursePage = lazy(() => import('src/pages/dashboard/course'));
+
 // Product
 const ProductDetailsPage = lazy(() => import('src/pages/dashboard/product/details'));
 const ProductListPage = lazy(() => import('src/pages/dashboard/product/list'));
@@ -82,6 +83,12 @@ const ParamsPage = lazy(() => import('src/pages/dashboard/params'));
 const SubpathsPage = lazy(() => import('src/pages/dashboard/subpaths'));
 const BlankPage = lazy(() => import('src/pages/dashboard/blank'));
 
+// Client
+const ClientListPage = lazy(() => import('src/pages/dashboard/cliente/index'));
+ 
+
+
+
 // ----------------------------------------------------------------------
 
 function SuspenseOutlet() {
@@ -117,6 +124,7 @@ export const dashboardRoutes: RouteObject[] = [
       { path: 'booking', element: <OverviewBookingPage /> },
       { path: 'file', element: <OverviewFilePage /> },
       { path: 'course', element: <OverviewCoursePage /> },
+      { path: 'cliente', element: <ClientListPage /> },
       {
         path: 'user',
         children: [
@@ -197,6 +205,7 @@ export const dashboardRoutes: RouteObject[] = [
           { path: ':id/edit', element: <TourEditPage /> },
         ],
       },
+      
       { path: 'file-manager', element: <FileManagerPage /> },
       { path: 'mail', element: <MailPage /> },
       { path: 'chat', element: <ChatPage /> },
