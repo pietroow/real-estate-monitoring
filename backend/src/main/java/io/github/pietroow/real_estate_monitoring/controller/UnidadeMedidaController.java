@@ -30,9 +30,9 @@ public class UnidadeMedidaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarUnidadeMedida(@RequestBody @Valid UnidadeMedidaRequestDTO dto) {
+    public UnidadeMedidaResponseDTO criarUnidadeMedida(@RequestBody @Valid UnidadeMedidaRequestDTO dto) {
         UnidadeMedida novoUnidadeMedida = unidadeMedidaService.salvar(dto);
-        UnidadeMedidaResponseDTO responseDTO = unidadeMedidaMapper.toUnidadeMedidaResponseDTO(novoUnidadeMedida);
+        return unidadeMedidaMapper.toUnidadeMedidaResponseDTO(novoUnidadeMedida);
     }
 
     @PutMapping("/{id}")

@@ -3,7 +3,6 @@ package io.github.pietroow.real_estate_monitoring.service;
 import io.github.pietroow.real_estate_monitoring.dto.obraRequestDTO.UnidadeMedidaRequestDTO;
 import io.github.pietroow.real_estate_monitoring.exceptionHandler.RegraDeNegocioException;
 import io.github.pietroow.real_estate_monitoring.mapper.UnidadeMedidaMapper;
-import io.github.pietroow.real_estate_monitoring.model.TipoObra;
 import io.github.pietroow.real_estate_monitoring.model.UnidadeMedida;
 import io.github.pietroow.real_estate_monitoring.repository.UnidadeMedidaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -39,7 +38,7 @@ public class UnidadeMedidaService {
         if (unidadeMedidaRepository.existsByNome(dto.nome())) {
             throw new RegraDeNegocioException("Tipo de obra: '" + dto.nome() + "' já está cadastrada.");
         }
-        UnidadeMedida unidadeMedida  = unidadeMedidaMapper.toEntity(dto);
+        UnidadeMedida unidadeMedida = unidadeMedidaMapper.toEntity(dto);
 
         return unidadeMedidaRepository.save(unidadeMedida);
     }
@@ -48,7 +47,7 @@ public class UnidadeMedidaService {
     public UnidadeMedida atualizar(UUID id, UnidadeMedidaRequestDTO dto) {
         UnidadeMedida unidadeMedidaExistente = this.buscarPorId(id);
 
-        if(unidadeMedidaRepository.existsByNome(dto.nome())) {
+        if (unidadeMedidaRepository.existsByNome(dto.nome())) {
             throw new RegraDeNegocioException("Unidade de medida '" + dto.nome() + "' já está cadastrada.");
         }
 

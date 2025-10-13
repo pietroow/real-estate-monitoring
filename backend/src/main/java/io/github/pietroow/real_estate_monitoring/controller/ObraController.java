@@ -24,9 +24,9 @@ public class ObraController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void cadastrarObra(@RequestBody @Valid ObraRequestDTO dto) {
+    public ObraResponseDTO cadastrarObra(@RequestBody @Valid ObraRequestDTO dto) {
         Obra novaObra = obraService.salvar(dto);
-        ObraResponseDTO responseDTO = obraMapper.toObraResponseDTO(novaObra);
+        return obraMapper.toObraResponseDTO(novaObra);
     }
 
     @GetMapping

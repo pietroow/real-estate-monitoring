@@ -30,9 +30,9 @@ public class StatusObraController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarStatusObra(@RequestBody @Valid StatusObraRequestDTO dto) {
+    public StatusObraResponseDTO criarStatusObra(@RequestBody @Valid StatusObraRequestDTO dto) {
         StatusObra novoStatusObra = statusObraService.salvar(dto);
-        StatusObraResponseDTO responseDTO = statusObraMapper.toStatusObraResponseDTO(novoStatusObra);
+        return statusObraMapper.toStatusObraResponseDTO(novoStatusObra);
     }
 
     @PutMapping("/{id}")

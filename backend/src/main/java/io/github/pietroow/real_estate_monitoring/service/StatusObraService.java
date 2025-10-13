@@ -37,7 +37,7 @@ public class StatusObraService {
     @Transactional
     public StatusObra salvar(StatusObraRequestDTO dto) {
 
-        if (statusObraRepository.existsByNome(dto.nome())){
+        if (statusObraRepository.existsByNome(dto.nome())) {
             throw new RegraDeNegocioException("Statutos de obra ''" + dto.nome() + "' já está cadastrado.");
         }
         StatusObra novoStatusObra = statusObraMapper.toEntity(dto);
@@ -49,8 +49,8 @@ public class StatusObraService {
     public StatusObra atualizar(UUID id, StatusObraRequestDTO dto) {
         StatusObra statusObraExistente = this.buscarPorId(id);
 
-        if(statusObraRepository.existsByNome(dto.nome())){
-            throw  new RegraDeNegocioException("Statutos de obra '" + dto.nome() + "' já está cadastrado.");
+        if (statusObraRepository.existsByNome(dto.nome())) {
+            throw new RegraDeNegocioException("Statutos de obra '" + dto.nome() + "' já está cadastrado.");
         }
 
         statusObraMapper.updateEntityFromRequestDTO(statusObraExistente, dto);
