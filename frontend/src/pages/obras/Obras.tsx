@@ -1,5 +1,7 @@
 import type { Obra } from 'src/models/obra';
-import type { OptionModel } from 'src/models/optionModel';
+import type { OptionModel } from 'src/models/option-model';
+
+import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -64,9 +66,15 @@ const rows: Obra[] = [
 ];
 
 export default function Obras() {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => {
+    console.log('AbrindoModal', openModal);
+    setOpenModal(true);
+  };
   return (
     <Box p={5} component={Paper}>
-      <HeaderCadastroObra />
+      <HeaderCadastroObra onAddObraClick={handleOpenModal} />
       <SearchObras typeOptions={typeOptions} statusOptions={statusOptions} />
       <TableObras rows={rows} />
     </Box>

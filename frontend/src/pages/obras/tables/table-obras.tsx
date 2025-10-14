@@ -3,6 +3,7 @@ import type { Obra } from 'src/models/obra';
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import { styled } from '@mui/material/styles';
 import TableBody from '@mui/material/TableBody';
@@ -46,7 +47,7 @@ export default function TableObras({ rows }: ObrasTableProps) {
   };
 
   return (
-    <Box>
+    <Paper>
       <TableContainer>
         <Table>
           <TableHead>
@@ -69,16 +70,8 @@ export default function TableObras({ rows }: ObrasTableProps) {
                 <StyledTableCell>{row?.codigo}</StyledTableCell>
                 <StyledTableCell>
                   <Box display="flex" alignItems="center" gap={1}>
-                    {row.detalhes}
-                    <span
-                      className="material-icons"
-                      style={{
-                        cursor: 'pointer',
-                        alignItems: 'end',
-                        fontSize: '16px',
-                        color: '#636363',
-                      }}
-                    >
+                    Detalhes
+                    <span style={{ color: '#636363' }} className="material-icons">
                       visibility
                     </span>
                   </Box>
@@ -91,6 +84,11 @@ export default function TableObras({ rows }: ObrasTableProps) {
         </Table>
       </TableContainer>
       <TablePagination
+        sx={{
+          '.MuiTablePagination-toolbar': {
+            alignItems: 'baseline',
+          },
+        }}
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
         count={rows.length}
@@ -99,6 +97,6 @@ export default function TableObras({ rows }: ObrasTableProps) {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Box>
+    </Paper>
   );
 }
