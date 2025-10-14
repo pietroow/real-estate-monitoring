@@ -3,6 +3,7 @@ import type { RouteObject } from 'react-router';
 import { lazy, Suspense } from 'react';
 import { Outlet, Navigate } from 'react-router';
 
+import Obras from 'src/pages/obras/Obras';
 import { CONFIG } from 'src/global-config';
 import { DashboardLayout } from 'src/layouts/dashboard';
 
@@ -115,6 +116,7 @@ export const dashboardRoutes: RouteObject[] = [
       { path: 'analytics', element: <OverviewAnalyticsPage /> },
       { path: 'banking', element: <OverviewBankingPage /> },
       { path: 'booking', element: <OverviewBookingPage /> },
+      { path: 'obras', element: <Obras /> },
       { path: 'file', element: <OverviewFilePage /> },
       { path: 'course', element: <OverviewCoursePage /> },
       {
