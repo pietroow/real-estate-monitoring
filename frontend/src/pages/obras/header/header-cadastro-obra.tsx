@@ -24,6 +24,9 @@ export default function HeaderCadastroObra({ onAddObraClick }: HeaderCadastroObr
           <span className="material-icons">add</span>
           Novo
         </Button>
+        <Button color="info" variant="contained">
+          <span className="material-icons">print</span>
+        </Button>
       </Box>
     </Stack>
   );

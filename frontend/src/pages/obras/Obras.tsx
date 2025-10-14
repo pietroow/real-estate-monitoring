@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
+import FormObra from './form-obra/form-obra';
 import TableObras from './tables/table-obras';
 import SearchObras from './search/search-obras';
 import HeaderCadastroObra from './header/header-cadastro-obra';
@@ -72,11 +73,13 @@ export default function Obras() {
     console.log('AbrindoModal', openModal);
     setOpenModal(true);
   };
+  const handleCloseModal = () => setOpenModal(false);
   return (
     <Box p={5} component={Paper}>
       <HeaderCadastroObra onAddObraClick={handleOpenModal} />
       <SearchObras typeOptions={typeOptions} statusOptions={statusOptions} />
       <TableObras rows={rows} />
+      <FormObra open={openModal} close={handleCloseModal} />
     </Box>
   );
 }

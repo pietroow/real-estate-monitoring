@@ -71,9 +71,7 @@ export default function TableObras({ rows }: ObrasTableProps) {
                 <StyledTableCell>
                   <Box display="flex" alignItems="center" gap={1}>
                     Detalhes
-                    <span style={{ color: '#636363' }} className="material-icons">
-                      visibility
-                    </span>
+                    <span className="material-icons">visibility</span>
                   </Box>
                 </StyledTableCell>
                 <StyledTableCell>{row.areaTotal}</StyledTableCell>
