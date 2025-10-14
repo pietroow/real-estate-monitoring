@@ -1,43 +1,39 @@
 package io.github.pietroow.real_estate_monitoring.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
-@Setter
-public class FuncionarioResponseDTO {
+public record FuncionarioResponseDTO(
+        UUID id,
+        String nome,
+        String sexo,
+        String cpf,
+        String rg,
+        String uf,
+        String telefone1,
+        String telefone2,
+        String email,
+        LocalDate dataNascimento,
+        int quantidadeFilhos,
+        String nomeMae,
+        String nomePai,
+        boolean isTerceiro,
+        Boolean ativo,
+        String regimeDeTrabalho,
+        String observacoesRemuneracao,
+        String funcao,
+        String nivel,
+        LocalDate dataAdmissao,
+        LocalDate dataDemissao,
+        String perfil,
+        String contaBancaria,
+        String empresaReferencia1,
+        String contatoReferencia1,
+        String telefoneReferencia1,
+        String empresaReferencia2,
+        String contatoReferencia2,
+        String telefoneReferencia2,
+        String observacoesGeral
+) {
 
-    private UUID id;
-    private String nome;
-    private String sexo;
-    private String cpf;
-    private String rg;
-    private String uf;
-    private String telefone1;
-    private String telefone2;
-    private String email;
-    private LocalDate dataNascimento;
-    private int quantidadeFilhos;
-    private String nomeMae;
-    private String nomePai;
-    private boolean isTerceiro;
-    private Boolean ativo;
-    private String regimeDeTrabalho;
-    private String observacoesRemuneracao;
-    private String funcao;
-    private String nivel;
-    private LocalDate dataAdmissao;
-    private LocalDate dataDemissao;
-    private String perfil;
-    private String contaBancaria;
-    private String empresaReferencia1;
-    private String contatoReferencia1;
-    private String telefoneReferencia1;
-    private String empresaReferencia2;
-    private String contatoReferencia2;
-    private String telefoneReferencia2;
-    private String observacoesGeral;
 }

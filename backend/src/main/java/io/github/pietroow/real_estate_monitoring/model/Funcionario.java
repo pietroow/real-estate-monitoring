@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "funcionarios", schema = "real-estate-monitoring")
+@Table(name = "funcionarios")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -82,7 +82,7 @@ public class Funcionario {
     @Column(name = "data_demissao")
     private LocalDate dataDemissao;
 
-    @Column(name = "perfil")// Confirmar com o Pietro oque seria
+    @Column(name = "perfil")
     private String perfil;
 
     @Column(name = "conta_bancaria")
