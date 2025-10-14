@@ -3,7 +3,7 @@ package io.github.pietroow.real_estate_monitoring.controller;
 import io.github.pietroow.real_estate_monitoring.dto.FuncionarioRequestDTO;
 import io.github.pietroow.real_estate_monitoring.dto.FuncionarioResponseDTO;
 import io.github.pietroow.real_estate_monitoring.service.FuncionarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,11 +15,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/funcionarios")
+@RequestMapping("/funcionarios")
+@RequiredArgsConstructor
 public class FuncionarioController {
 
-    @Autowired
-    private FuncionarioService funcionarioService;
+    private final FuncionarioService funcionarioService;
 
     @PostMapping
     public ResponseEntity<FuncionarioResponseDTO> create(@RequestBody FuncionarioRequestDTO requestDTO) {
