@@ -1,3 +1,4 @@
+
 package io.github.pietroow.real_estate_monitoring.repository;
 
 import io.github.pietroow.real_estate_monitoring.model.Fornecedor;
@@ -11,6 +12,8 @@ import java.util.UUID;
 public interface FornecedorRepository extends JpaRepository<Fornecedor, UUID> {
     boolean existsByCnpj(String cnpj);
 
+    boolean existsByCnpjAndIdNot(String cnpj, UUID id);
+
     @Query("""
             select f
               from Fornecedor f
@@ -19,13 +22,13 @@ public interface FornecedorRepository extends JpaRepository<Fornecedor, UUID> {
                and (:nomeFantasia is null or lower(f.nomeFantasia) like lower(concat('%', :nomeFantasia, '%')))
                and (:cidade is null or lower(f.cidade) like lower(concat('%', :cidade, '%')))
                and (:uf is null or f.uf = :uf)
-               and (:status is null or f.status = :status)
+               and (:status is null or str(f.status) = :status)
             """)
     Page<Fornecedor> search(String cnpj,
                             String razaoSocial,
                             String nomeFantasia,
                             String cidade,
                             String uf,
-                            io.github.pietroow.real_estate_monitoring.model.enums.FornecedorStatus status,
+                            String status,
                             Pageable pageable);
 }
