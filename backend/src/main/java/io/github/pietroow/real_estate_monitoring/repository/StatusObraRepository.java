@@ -1,13 +1,13 @@
 package io.github.pietroow.real_estate_monitoring.repository;
 
-import io.github.pietroow.real_estate_monitoring.model.Obra;
+import io.github.pietroow.real_estate_monitoring.model.StatusObra;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface ObraRepository extends JpaRepository<Obra, UUID> {
+public interface StatusObraRepository extends JpaRepository<StatusObra, UUID> {
 
-    boolean existsByArtAndIdNot(String art, UUID id);
+    boolean existsByNome(String nome);
 }
