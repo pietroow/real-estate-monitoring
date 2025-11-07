@@ -1,0 +1,71 @@
+@baseUrl = http://localhost:8080
+@contentType = application/json
+@fornecedorId = 00000000-0000-0000-0000-000000000000
+
+### Criar fornecedor
+POST {{baseUrl}}/fornecedores
+Content-Type: {{contentType}}
+Accept: {{contentType}}
+
+{
+  "cnpj": "12345678000199",
+  "razaoSocial": "Fornecedor Exemplo LTDA",
+  "emailPrincipal": "contato@exemplo.com",
+  "nomeFantasia": "Fornecedor Exemplo",
+  "inscricaoEstadual": "ISENTO",
+  "inscricaoMunicipal": "123456",
+  "telefonePrincipal": "11999999999",
+  "nomeContato": "Fulano de Tal",
+  "cep": "12345-678",
+  "logradouro": "Rua Exemplo",
+  "numero": "100",
+  "complemento": "Conj. 10",
+  "bairro": "Centro",
+  "cidade": "São Paulo",
+  "uf": "SP",
+  "bancoCodigo": "001",
+  "agencia": "1234",
+  "conta": "123456-7",
+  "pix": "contato@exemplo.com",
+  "observacoes": "Observação inicial"
+}
+
+> {%
+    const body = response.body;
+    if (body && body.id) {
+        client.global.set("fornecedorId", body.id);
+    }
+%}
+
+### Listar fornecedores (com filtros e paginação)
+GET {{baseUrl}}/fornecedores?razaoSocial=exemplo&cidade=s%C3%A3o%20paulo&uf=SP&page=0&size=10&sort=razaoSocial,asc
+Accept: {{contentType}}
+
+### Obter fornecedor por ID
+GET {{baseUrl}}/fornecedores/{{fornecedorId}}
+Accept: {{contentType}}
+
+### Atualizar fornecedor (parcial)
+PUT {{baseUrl}}/fornecedores/{{fornecedorId}}
+Content-Type: {{contentType}}
+Accept: {{contentType}}
+
+{
+  "nomeFantasia": "Fornecedor Exemplo Atualizado",
+  "telefonePrincipal": "11988888888",
+  "pix": "chave-pix-atualizada",
+  "observacoes": "Dados atualizados via HTTP client"
+}
+
+### Atualizar CNPJ (14 dígitos)
+PUT {{baseUrl}}/fornecedores/{{fornecedorId}}
+Content-Type: {{contentType}}
+Accept: {{contentType}}
+
+{
+  "cnpj": "11222333000155"
+}
+
+### Excluir (inativar) fornecedor
+DELETE {{baseUrl}}/fornecedores/{{fornecedorId}}
+Accept: */*
