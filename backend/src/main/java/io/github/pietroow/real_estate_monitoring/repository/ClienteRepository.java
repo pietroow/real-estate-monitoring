@@ -1,14 +1,15 @@
 package io.github.pietroow.real_estate_monitoring.repository;
 
 import io.github.pietroow.real_estate_monitoring.model.Cliente;
-import io.github.pietroow.real_estate_monitoring.model.Endereco;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.UUID;
 
+@Repository
 public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
 
-    Cliente findByCpfCnpj(String cpfCnpj);
+    boolean existsByCpfOrCnpjAndIdNot(String cnpj, String cpf, UUID id);
 
-    public interface EnderecoRepository extends JpaRepository<Endereco, UUID> {
-    }
+    boolean existsByCpfOrCnpj(String cpf, String cnpj);
 }

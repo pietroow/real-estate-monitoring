@@ -5,15 +5,17 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 public record ClienteRequestDTO(
 
-        @NotBlank
+        @NotBlank(message = "O nome do cliente não pode ser vazio.")
         String nome,
 
-        @NotBlank
+        @NotBlank(message = "A razão social não pode ser vazio.")
         String razaoSocial,
 
-        @NotBlank
+        @NotBlank(message = "O CPF ou CNPJ não pode ser vazio.")
         String cpfCnpj,
 
         @NotNull
@@ -32,5 +34,6 @@ public record ClienteRequestDTO(
 
         String comentario,
 
-        EnderecoRequestDTO endereco
+        @NotNull(message = "O endereço do cliente é obrigatório")
+        UUID enderecoId
 ) {}

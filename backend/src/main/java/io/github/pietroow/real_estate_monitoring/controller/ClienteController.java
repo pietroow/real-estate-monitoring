@@ -6,6 +6,8 @@ import io.github.pietroow.real_estate_monitoring.mapper.ClienteMapper;
 import io.github.pietroow.real_estate_monitoring.model.Cliente;
 import io.github.pietroow.real_estate_monitoring.service.ClienteService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,37 +16,18 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/clientes")
+@RequiredArgsConstructor
 public class ClienteController {
 
     private final ClienteService clienteService;
-
-    public ClienteController(ClienteService clienteService) {
-        this.clienteService = clienteService;
-    }
+    private final ClienteMapper clienteMapper;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ClienteResponseDTO criar(@RequestBody @Valid ClienteRequestDTO dto) {
-        Cliente cliente = ClienteMapper.toEntity(dto);
-        Cliente salvo = clienteService.salvar(cliente);
-        return ClienteMapper.toDTO(salvo);
+        Cliente novoCliente = clienteService.salvar(dto);
+        return clienteMapper.toClienteResponseDTO(novoCliente);
     }
 
-    @GetMapping
-    public List<ClienteResponseDTO> listar() {
-        return clienteService.listarTodos()
-                .stream()
-                .map(ClienteMapper::toDTO)
-                .collect(Collectors.toList());
-    }
 
-    @GetMapping("/{id}")
-    public ClienteResponseDTO buscar(@PathVariable UUID id) {
-        Cliente cliente = clienteService.buscarPorId(id);
-        return ClienteMapper.toDTO(cliente);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deletar(@PathVariable UUID id) {
-        clienteService.deletar(id);
-    }
 }

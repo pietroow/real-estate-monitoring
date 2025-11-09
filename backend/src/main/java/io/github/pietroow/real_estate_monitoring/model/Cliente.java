@@ -1,7 +1,16 @@
 package io.github.pietroow.real_estate_monitoring.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,22 +18,22 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "cliente")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "nome")
     private String nome;
 
-    @NotNull
     @Column(name = "razao_social")
     private String razaoSocial;
 
@@ -32,8 +41,11 @@ public class Cliente {
     @Column(name = "tipo")
     private TipoPessoa tipo;
 
-    @Column(name = "cpf_cnpj", unique = true)
-    private String cpfCnpj;
+    @Column(name = "cpf")
+    private String cpf;
+
+    @Column(name = "cnpj")
+    private String cnpj;
 
     @Column(name = "inscricao_estadual")
     private String inscricaoEstadual;
@@ -50,9 +62,10 @@ public class Cliente {
     @Column(name = "email")
     private String email;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "comentario")
     private String comentario;
 
-    @OneToOne(mappedBy = "endereco", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 }

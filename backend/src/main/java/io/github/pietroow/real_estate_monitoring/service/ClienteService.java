@@ -1,69 +1,59 @@
 package io.github.pietroow.real_estate_monitoring.service;
 
 import io.github.pietroow.real_estate_monitoring.dto.ClienteRequestDTO;
+import io.github.pietroow.real_estate_monitoring.exceptionHandler.RegraDeNegocioException;
+import io.github.pietroow.real_estate_monitoring.mapper.ClienteMapper;
 import io.github.pietroow.real_estate_monitoring.model.Cliente;
-import io.github.pietroow.real_estate_monitoring.model.Endereco;
 import io.github.pietroow.real_estate_monitoring.repository.ClienteRepository;
-import jakarta.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final ClienteMapper clienteMapper;
 
-    public ClienteService(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
-    }
     @Transactional
-    public Cliente salvar(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public Cliente salvar(ClienteRequestDTO dto) {
+
+        Cliente novoCliente = clienteMapper.toEntity(dto);
+
+        return clienteRepository.save(novoCliente);
     }
 
-    public List<Cliente> listarTodos() {
-        return clienteRepository.findAll();
+    @Transactional(readOnly = true)
+    public Page<Cliente> listar(Pageable pageable) {
+        return clienteRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Cliente buscarPorId(UUID id) {
         return clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Cliente com o ID '" + id + "' não encontrado."));
     }
 
+    @Transactional
     public void deletar(UUID id) {
-        clienteRepository.deleteById(id);
+        Cliente cliente = this.buscarPorId(id);
+        clienteRepository.delete(cliente);
     }
 
     @Transactional
     public Cliente atualizar(UUID id, ClienteRequestDTO dto) {
-        Cliente existente = buscarPorId(id);
-        existente.setNome(dto.nome());
-        existente.setRazaoSocial(dto.razaoSocial());
-        existente.setTipo(dto.tipo());
-        existente.setCpfCnpj(dto.cpfCnpj());
-        existente.setInscricaoEstadual(dto.inscricaoEstadual());
-        existente.setInscricaoMunicipal(dto.inscricaoMunicipal());
-        existente.setTelefone1(dto.telefone1());
-        existente.setTelefone2(dto.telefone2());
-        existente.setEmail(dto.email());
-        existente.setComentario(dto.comentario());
+        Cliente cliente = this.buscarPorId(id);
 
-        if (dto.endereco() != null) {
-            Endereco end = existente.getEndereco();
-            if (end == null) {
-                end = new Endereco();
-                existente.setEndereco(end);
-            }
-            end.setCep(dto.endereco().cep());
-            end.setEndereco(dto.endereco().logradouro());
-            end.setNumero(dto.endereco().numero());
-            end.setComplemento(dto.endereco().complemento());
-            end.setBairro(dto.endereco().bairro());
-            end.setEstado(dto.endereco().estado());
-            end.setCidade(dto.endereco().cidade());
+        if (clienteRepository.existsByCpfOrCnpjAndIdNot(dto.cpfCnpj(), id)){
+            throw new RegraDeNegocioException("CPF ou CNPJ '"+ dto.cpfCnpj() + " 'já está em uso por outro cliente")
+
         }
-        return clienteRepository.save(existente);
-    }
+
+    };
 }
