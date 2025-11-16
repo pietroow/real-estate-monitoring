@@ -18,3 +18,5 @@ dependency-reduced-pom.xml
 # Arquivos de Sistema Operacional
 .DS_Store
 Thumbs.db
+
+frontend/
