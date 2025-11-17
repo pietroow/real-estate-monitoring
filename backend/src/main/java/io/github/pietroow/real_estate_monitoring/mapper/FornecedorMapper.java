@@ -3,18 +3,29 @@ package io.github.pietroow.real_estate_monitoring.mapper;
 import io.github.pietroow.real_estate_monitoring.dto.FornecedorCreateDto;
 import io.github.pietroow.real_estate_monitoring.dto.FornecedorResponseDto;
 import io.github.pietroow.real_estate_monitoring.model.Fornecedor;
-import org.mapstruct.BeanMapping;
+import io.github.pietroow.real_estate_monitoring.model.enums.FornecedorStatus;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface FornecedorMapper {
 
-    FornecedorResponseDto toResponse(Fornecedor e);
+    FornecedorResponseDto toFornecedorResponseDTO(Fornecedor fornecedor);
 
-    void applyCreate(@MappingTarget Fornecedor e, FornecedorCreateDto dto);
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "status", source = "status")
+    })
+    Fornecedor toEntity(FornecedorCreateDto dto, String cnpj, FornecedorStatus status);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void applyUpdate(@MappingTarget Fornecedor e, FornecedorCreateDto dto);
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "cnpj", source = "cnpj"),
+            @Mapping(target = "status", source = "status"),
+            @Mapping(target = "dataCadastro", ignore = true),
+            @Mapping(target = "dataAtualizacao", ignore = true)
+    })
+    void updateEntityFromRequestDTO(@MappingTarget Fornecedor fornecedor, FornecedorCreateDto dto, String cnpj, FornecedorStatus status);
 }
