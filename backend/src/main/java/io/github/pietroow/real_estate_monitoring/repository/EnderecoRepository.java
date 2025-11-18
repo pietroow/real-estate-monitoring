@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface EnderecoRepository extends JpaRepository<Endereco, UUID> {
     boolean existsByCepAndNumero(String cep, String numero);
+
 }

@@ -13,5 +13,7 @@ CREATE TABLE cliente
     email               VARCHAR(255),
     comentario          VARCHAR(255),
     endereco_id         UUID,
-    CONSTRAINT fk_cliente_endereco FOREIGN KEY (endereco_id) REFERENCES endereco (id)
+    CONSTRAINT fk_cliente_endereco FOREIGN KEY (endereco_id) REFERENCES endereco (id),
+    CONSTRAINT uk_cpf UNIQUE (cpf),
+    CONSTRAINT uk_cnpj UNIQUE (cnpj)
 );

@@ -7,5 +7,6 @@ CREATE TABLE endereco
     complemento VARCHAR(255),
     bairro      VARCHAR(255),
     cidade      VARCHAR(255),
-    estado      VARCHAR(255)
+    estado      VARCHAR(255),
+    CONSTRAINT uk_endereco_cep_numero UNIQUE (cep, numero)
 );

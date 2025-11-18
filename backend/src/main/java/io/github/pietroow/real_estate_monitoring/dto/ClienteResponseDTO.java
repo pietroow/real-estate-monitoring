@@ -1,6 +1,7 @@
 package io.github.pietroow.real_estate_monitoring.dto;
 
-import io.github.pietroow.real_estate_monitoring.model.TipoPessoa;
+import io.github.pietroow.real_estate_monitoring.model.enums.TipoPessoa;
+
 import java.util.UUID;
 
 

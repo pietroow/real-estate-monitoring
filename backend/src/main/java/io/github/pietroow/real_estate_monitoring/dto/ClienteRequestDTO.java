@@ -1,39 +1,32 @@
 package io.github.pietroow.real_estate_monitoring.dto;
 
-import io.github.pietroow.real_estate_monitoring.model.TipoPessoa;
+import io.github.pietroow.real_estate_monitoring.model.enums.TipoPessoa;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
 public record ClienteRequestDTO(
 
-        @NotBlank(message = "O nome do cliente não pode ser vazio.")
         String nome,
-
-        @NotBlank(message = "A razão social não pode ser vazio.")
         String razaoSocial,
+        String cpf,
+        String cnpj,
 
-        @NotBlank(message = "O CPF ou CNPJ não pode ser vazio.")
-        String cpfCnpj,
-
-        @NotNull
+        @NotNull(message = "O tipo de pessoa é obrigatório.")
         TipoPessoa tipo,
 
         String inscricaoEstadual,
-
         String inscricaoMunicipal,
-
         String telefone1,
-
         String telefone2,
 
-        @Email
+        @Email(message = "O formato do e-mail é inválido.")
         String email,
 
         String comentario,
 
-        @NotNull(message = "O endereço do cliente é obrigatório")
+        @NotNull(message = "O endereço do cliente é obrigatório.")
         UUID enderecoId
-) {}
+) {
+}

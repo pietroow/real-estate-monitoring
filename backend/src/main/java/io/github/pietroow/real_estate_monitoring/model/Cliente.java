@@ -1,5 +1,6 @@
 package io.github.pietroow.real_estate_monitoring.model;
 
+import io.github.pietroow.real_estate_monitoring.model.enums.TipoPessoa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
