@@ -9,7 +9,6 @@ import io.github.pietroow.real_estate_monitoring.model.enums.FornecedorStatus;
 import io.github.pietroow.real_estate_monitoring.repository.FornecedorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,12 +23,9 @@ public class FornecedorService {
     private final FornecedorRepository fornecedorRepository;
     private final FornecedorMapper mapper;
 
-    private final @Lazy FornecedorService fornecedorService;
-
     @Transactional
     public Fornecedor create(FornecedorCreateDto dto) {
         String normalizedCnpj = dto.cnpj().replaceAll("\\D", "");
-        // Evitar erro de unique no DB
         if (fornecedorRepository.existsByCnpj(normalizedCnpj)) {
             throw new RegraDeNegocioException("CNPJ já cadastrado");
         }
@@ -56,7 +52,7 @@ public class FornecedorService {
 
     @Transactional
     public Fornecedor update(UUID id, FornecedorCreateDto dto) {
-        var fornecedor = fornecedorService.findById(id);
+        var fornecedor = this.findById(id);
 
         String normalized = dto.cnpj().replaceAll("\\D", "");
 
@@ -72,7 +68,7 @@ public class FornecedorService {
 
     @Transactional
     public void delete(UUID id) {
-        var fornecedor = fornecedorService.findById(id);
+        var fornecedor = this.findById(id);
         fornecedor.inativar();
         fornecedorRepository.save(fornecedor);
     }
