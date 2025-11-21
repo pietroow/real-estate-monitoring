@@ -42,7 +42,6 @@ const ICONS = {
   ecommerce: icon('ic-ecommerce'),
   analytics: icon('ic-analytics'),
   dashboard: icon('ic-dashboard'),
-  client: icon('ic-user'),
 };
 
 // ----------------------------------------------------------------------
@@ -76,7 +75,6 @@ export const navData: NavSectionProps['data'] = [
       { title: 'Booking', path: paths.dashboard.general.booking, icon: ICONS.booking },
       { title: 'File', path: paths.dashboard.general.file, icon: ICONS.file },
       { title: 'Course', path: paths.dashboard.general.course, icon: ICONS.course },
-      {title: 'Clientes', path: paths.dashboard.general.cliente, icon: ICONS.client},
     ],
   },
   /**

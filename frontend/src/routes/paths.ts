@@ -106,7 +106,6 @@ export const paths = {
       booking: `${ROOTS.DASHBOARD}/booking`,
       file: `${ROOTS.DASHBOARD}/file`,
       course: `${ROOTS.DASHBOARD}/course`,
-      cliente: `${ROOTS.DASHBOARD}/cliente`,
     },
     user: {
       root: `${ROOTS.DASHBOARD}/user`,
@@ -172,13 +171,6 @@ export const paths = {
         details: `${ROOTS.DASHBOARD}/tour/${MOCK_ID}`,
         edit: `${ROOTS.DASHBOARD}/tour/${MOCK_ID}/edit`,
       },
-    },
-    client: {
-      root: `${ROOTS.DASHBOARD}/client`,
-      new: `${ROOTS.DASHBOARD}/client/new`,
-      list: `${ROOTS.DASHBOARD}/client/list`,
-      edit: (id: string) => `${ROOTS.DASHBOARD}/client/${id}/edit`,
-      demo: { edit: `${ROOTS.DASHBOARD}/client/${MOCK_ID}/edit` },
     },
   },
 };
