@@ -30,7 +30,7 @@ public class EnderecoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EnderecoResponseDTO cadastrar(@RequestBody @Valid EnderecoRequestDTO dto) {
+    public EnderecoResponseDTO cadastrar(@Valid @RequestBody EnderecoRequestDTO dto) {
         Endereco novoEndereco = enderecoService.salvar(dto);
         return enderecoMapper.toEnderecoResponseDTO(novoEndereco);
     }
@@ -48,7 +48,7 @@ public class EnderecoController {
     }
 
     @PutMapping("/{id}")
-    public EnderecoResponseDTO atualizar(@PathVariable UUID id, @RequestBody @Valid EnderecoRequestDTO dto) {
+    public EnderecoResponseDTO atualizar(@PathVariable UUID id, @Valid @RequestBody EnderecoRequestDTO dto) {
         Endereco enderecoAtualizado = enderecoService.atualizar(id, dto);
         return enderecoMapper.toEnderecoResponseDTO(enderecoAtualizado);
     }

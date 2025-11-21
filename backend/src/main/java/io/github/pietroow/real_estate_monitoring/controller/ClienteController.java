@@ -26,13 +26,13 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClienteResponseDTO criar(@RequestBody @Valid ClienteRequestDTO dto) {
+    public ClienteResponseDTO criar(@Valid @RequestBody ClienteRequestDTO dto) {
         Cliente novoCliente = clienteService.salvar(dto);
         return clienteMapper.toClienteResponseDTO(novoCliente);
     }
 
     @PutMapping("/{id}")
-    public ClienteResponseDTO atualizar(@PathVariable UUID id, @RequestBody @Valid ClienteRequestDTO dto) {
+    public ClienteResponseDTO atualizar(@PathVariable UUID id, @Valid @RequestBody ClienteRequestDTO dto) {
         Cliente clienteAtualizado = clienteService.atualizar(id, dto);
         return clienteMapper.toClienteResponseDTO(clienteAtualizado);
     }
