@@ -10,6 +10,7 @@ import { SplashScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 
+const Obras = lazy(() => import('src/pages/obras/Obras'));
 const FaqsPage = lazy(() => import('src/pages/faqs'));
 const AboutPage = lazy(() => import('src/pages/about-us'));
 const ContactPage = lazy(() => import('src/pages/contact-us'));
@@ -76,6 +77,14 @@ export const mainRoutes: RouteObject[] = [
         element: (
           <SimpleLayout>
             <PricingPage />
+          </SimpleLayout>
+        ),
+      },
+      {
+        path: 'obras',
+        element: (
+          <SimpleLayout>
+            <Obras />
           </SimpleLayout>
         ),
       },
