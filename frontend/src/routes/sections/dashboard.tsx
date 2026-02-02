@@ -17,7 +17,7 @@ import { usePathname } from '../hooks';
 // ----------------------------------------------------------------------
 
 // Overview
-const IndexPage = lazy(() => import('src/pages/dashboard'));
+const IndexPage = lazy(() => import('../../pages/dashboard/index'));
 const OverviewEcommercePage = lazy(() => import('src/pages/dashboard/ecommerce'));
 const OverviewAnalyticsPage = lazy(() => import('src/pages/dashboard/analytics'));
 const OverviewBankingPage = lazy(() => import('src/pages/dashboard/banking'));
@@ -81,6 +81,8 @@ const PermissionDeniedPage = lazy(() => import('src/pages/dashboard/permission')
 const ParamsPage = lazy(() => import('src/pages/dashboard/params'));
 const SubpathsPage = lazy(() => import('src/pages/dashboard/subpaths'));
 const BlankPage = lazy(() => import('src/pages/dashboard/blank'));
+// Funcionários
+const FuncionariosPage = lazy(() => import('src/pages/dashboard/Funcionario/funcionarios'));
 
 // ----------------------------------------------------------------------
 
@@ -205,6 +207,7 @@ export const dashboardRoutes: RouteObject[] = [
       { path: 'permission', element: <PermissionDeniedPage /> },
       { path: 'params', element: <ParamsPage /> },
       { path: 'blank', element: <BlankPage /> },
+      { path: 'funcionarios', element: <FuncionariosPage /> },
       {
         path: 'subpaths',
         children: [
